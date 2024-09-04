@@ -1,7 +1,5 @@
 package com.ua.hotel_searcher_app.publication
 
-import com.ua.hotel_searcher_app.R
-
 data class Publication(
     val title: String,
     val description: String,

@@ -15,14 +15,13 @@ class PublicationViewModel @Inject constructor() : ViewModel() {
     private var _publications = MutableStateFlow(listOf<Publication>())
     val publications = _publications.asStateFlow()
 
-    //for what is this
+    
     init {
         fetchPublications()
     }
 
     private fun fetchPublications() {
         viewModelScope.launch {
-            // Fetch the data from an API or repository
             val fetchedPublications = listOf(
                 Publication(
                     "Cozy Apartment",
