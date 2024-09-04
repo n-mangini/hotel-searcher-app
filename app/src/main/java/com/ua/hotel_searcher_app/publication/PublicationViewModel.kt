@@ -15,7 +15,7 @@ class PublicationViewModel @Inject constructor() : ViewModel() {
     private var _publications = MutableStateFlow(listOf<Publication>())
     val publications = _publications.asStateFlow()
 
-    
+
     init {
         fetchPublications()
     }

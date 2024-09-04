@@ -6,8 +6,8 @@ enum class Screens {
     Whishlist,
 }
 
-val basePages = listOf(
+/*val basePages = listOf(
     Screens.Profile.name,
     Screens.Search.name,
     Screens.Whishlist.name,
-)
+)*/
