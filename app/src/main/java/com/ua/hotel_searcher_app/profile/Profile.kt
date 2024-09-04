@@ -1,4 +1,4 @@
-package com.ua.hotel_searcher_app.screens
+package com.ua.hotel_searcher_app.profile
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column

@@ -29,6 +29,12 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigationRuntimeKtx" }
+#    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+#    implementation("com.google.dagger:hilt-android:2.49")
+#    kapt("com.google.dagger:hilt-android-compiler:2.44")
+androidx-hilt = { group = "androidx.hilt", name = "hilt-navigation-compose", version = "1.2.0" }
+google-dagger = { group = "com.google.dagger", name = "hilt-android", version = "2.49" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

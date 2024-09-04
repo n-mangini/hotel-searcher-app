@@ -17,15 +17,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun Publication(publicationItem: PublicationItem) {
+fun Publication(publication: Publication) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
     ) {
         Image(
-            painter = painterResource(id = publicationItem.imageResId),
-            contentDescription = publicationItem.title,
+            painter = painterResource(id = publication.imageResId),
+            contentDescription = publication.title,
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
@@ -34,18 +34,18 @@ fun Publication(publicationItem: PublicationItem) {
         )
 
         Text(
-            text = publicationItem.title,
+            text = publication.title,
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
         )
 
         Text(
-            text = publicationItem.description,
+            text = publication.description,
             fontSize = 16.sp
         )
 
         Text(
-            text = publicationItem.price,
+            text = publication.price,
             fontSize = 16.sp,
         )
     }

@@ -9,8 +9,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.ua.hotel_searcher_app.screens.Profile
-import com.ua.hotel_searcher_app.screens.Search
+import com.ua.hotel_searcher_app.profile.Profile
+import com.ua.hotel_searcher_app.search.Search
 
 @Composable
 fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostController) {
