@@ -104,8 +104,7 @@ fun PreviewPublicationView() {
             "Cozy Apartment",
             "A beautiful place to stay in the city center.",
             "New York",
-            "$120/night",
-            imageResId = R.drawable.image_1
+            "$120/night"
         )
     ) {}
 }

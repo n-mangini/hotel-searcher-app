@@ -25,22 +25,19 @@ class PublicationViewModel @Inject constructor() : ViewModel() {
                     "Cozy Apartment",
                     "A beautiful place to stay in the city center.",
                     "New York",
-                    "$120/night",
-                    imageResId = R.drawable.image_1
+                    "$120/night"
                 ),
                 PublicationModel(
                     "Modern Loft",
                     "Spacious and bright loft with modern amenities.",
                     "Los Angeles",
-                    "$200/night",
-                    imageResId = R.drawable.image_1
+                    "$200/night"
                 ),
                 PublicationModel(
                     "Beach House",
                     "Enjoy the sea breeze at this beachfront property.",
                     "Zarate, Argentina",
-                    "$1/night",
-                    imageResId = R.drawable.image_1
+                    "$1/night"
                 )
             )
             _publications.value = fetchedPublicationModels
