@@ -2,6 +2,7 @@ package com.ua.hotel_searcher_app.publication
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
@@ -31,59 +33,64 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ua.hotel_searcher_app.R
 
 @Composable
 fun Publication() {
     val viewModel: PublicationViewModel = viewModel()
-
     var selectedPublication by remember { mutableStateOf<PublicationModel?>(null) }
+
     if (selectedPublication != null) {
         PublicationDetail(publicationModel = selectedPublication!!)
     } else {
-        PublicationList(
-            publicationModels = viewModel.publications.collectAsState().value,
-            onItemClick = { publication ->
-                selectedPublication = publication
+        LazyColumn {
+            items(viewModel.publications.value) { publication ->
+                PublicationView(
+                    publication = publication,
+                    onItemClick = { selectedPublication = publication }
+                )
             }
-        )
+        }
     }
 }
 
+//TODO reusable modifiers
 @Composable
-fun PublicationList(
-    publicationModels: List<PublicationModel>,
+fun PublicationView(
+    publication: PublicationModel,
     onItemClick: (PublicationModel) -> Unit
+    //modifier: Modifier = Modifier
 ) {
-    LazyColumn {
-        items(publicationModels.size) { index ->
-            Image(
-                painter = painterResource(id = publicationModels[index].imageResId),
-                contentDescription = publicationModels[index].title,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp)
-                    .clip(RoundedCornerShape(8.dp))
-            )
-            Row(
-                modifier = Modifier
-                    .clickable { onItemClick(publicationModels[index]) }
-                    .padding(16.dp)
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = publicationModels[index].title,
-                    )
-                    Text(
-                        text = publicationModels[index].location
-                    )
-                }
-                Button(onClick = { TODO() }) {
-                    Icon(imageVector = Icons.Filled.Star, contentDescription = "Save")
-                }
+    Column(
+        modifier = Modifier
+            .clickable { onItemClick(publication) }
+    ) {
+        Image(
+            painter = painterResource(id = publication.imageResId),
+            contentDescription = publication.title,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp)
+                .clip(RoundedCornerShape(10.dp))
+        )
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = publication.title,
+                )
+                Text(
+                    text = publication.location
+                )
+            }
+            Button(onClick = { TODO() }) {
+                Icon(imageVector = Icons.Filled.Star, contentDescription = "Save")
             }
         }
     }
@@ -91,11 +98,14 @@ fun PublicationList(
 
 @Preview
 @Composable
-fun PreviewPublication() {
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background // Or use Color.White if needed
-    ) {
-        Publication()
-    }
+fun PreviewPublicationView() {
+    PublicationView(
+        publication = PublicationModel(
+            "Cozy Apartment",
+            "A beautiful place to stay in the city center.",
+            "New York",
+            "$120/night",
+            imageResId = R.drawable.image_1
+        )
+    ) {}
 }
