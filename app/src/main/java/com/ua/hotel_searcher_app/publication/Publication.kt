@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -13,6 +14,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -32,15 +35,15 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 @Composable
 fun Publication() {
     val viewModel: PublicationViewModel = viewModel()
-    var selectedPublicationModel by remember { mutableStateOf<PublicationModel?>(null) }
 
-    if (selectedPublicationModel != null) {
-        PublicationDetail(publicationModel = selectedPublicationModel!!)
+    var selectedPublication by remember { mutableStateOf<PublicationModel?>(null) }
+    if (selectedPublication != null) {
+        PublicationDetail(publicationModel = selectedPublication!!)
     } else {
         PublicationList(
             publicationModels = viewModel.publications.collectAsState().value,
             onItemClick = { publication ->
-                selectedPublicationModel = publication
+                selectedPublication = publication
             }
         )
     }
@@ -88,6 +91,11 @@ fun PublicationList(
 
 @Preview
 @Composable
-fun PreviewSearch() {
-    Publication()
+fun PreviewPublication() {
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background // Or use Color.White if needed
+    ) {
+        Publication()
+    }
 }
