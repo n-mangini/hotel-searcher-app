@@ -10,11 +10,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-
 class PublicationViewModel @Inject constructor() : ViewModel() {
-    private var _publications = MutableStateFlow(listOf<Publication>())
+    private var _publications = MutableStateFlow(listOf<PublicationModel>())
     val publications = _publications.asStateFlow()
-
 
     init {
         fetchPublications()
@@ -22,22 +20,22 @@ class PublicationViewModel @Inject constructor() : ViewModel() {
 
     private fun fetchPublications() {
         viewModelScope.launch {
-            val fetchedPublications = listOf(
-                Publication(
+            val fetchedPublicationModels = listOf(
+                PublicationModel(
                     "Cozy Apartment",
                     "A beautiful place to stay in the city center.",
                     "New York",
                     "$120/night",
                     imageResId = R.drawable.image_1
                 ),
-                Publication(
+                PublicationModel(
                     "Modern Loft",
                     "Spacious and bright loft with modern amenities.",
                     "Los Angeles",
                     "$200/night",
                     imageResId = R.drawable.image_1
                 ),
-                Publication(
+                PublicationModel(
                     "Beach House",
                     "Enjoy the sea breeze at this beachfront property.",
                     "Zarate, Argentina",
@@ -45,7 +43,7 @@ class PublicationViewModel @Inject constructor() : ViewModel() {
                     imageResId = R.drawable.image_1
                 )
             )
-            _publications.value = fetchedPublications
+            _publications.value = fetchedPublicationModels
         }
     }
 }

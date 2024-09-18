@@ -1,4 +1,4 @@
-package com.ua.hotel_searcher_app.search
+package com.ua.hotel_searcher_app.publication
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -13,14 +13,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.ua.hotel_searcher_app.publication.Publication
 
 @Composable
-fun PublicationDetail(publication: Publication) {
+fun PublicationDetail(publicationModel: PublicationModel) {
     Column(modifier = Modifier.padding(16.dp)) {
         Image(
-            painter = painterResource(id = publication.imageResId),
-            contentDescription = publication.title,
+            painter = painterResource(id = publicationModel.imageResId),
+            contentDescription = publicationModel.title,
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
@@ -29,16 +28,16 @@ fun PublicationDetail(publication: Publication) {
         )
 
         Text(
-            text = publication.title,
+            text = publicationModel.title,
             modifier = Modifier.padding(vertical = 8.dp)
         )
 
         Text(
-            text = publication.description,
+            text = publicationModel.description,
         )
 
         Text(
-            text = "Location: ${publication.location}",
+            text = "Location: ${publicationModel.location}",
             modifier = Modifier.padding(vertical = 4.dp)
         )
     }
