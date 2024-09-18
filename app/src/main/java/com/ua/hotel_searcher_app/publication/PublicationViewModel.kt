@@ -1,9 +1,12 @@
 package com.ua.hotel_searcher_app.publication
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ua.hotel_searcher_app.R
+import com.ua.hotel_searcher_app.apiManager.ApiServiceImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -11,13 +14,27 @@ import javax.inject.Inject
 
 @HiltViewModel
 
-class PublicationViewModel @Inject constructor() : ViewModel() {
+class PublicationViewModel @Inject constructor(
+    @ApplicationContext private val context: Context,
+    private val apiServiceImpl: ApiServiceImpl
+) : ViewModel() {
+
+    /*    private var _loadPublication = MutableStateFlow(false)
+        val loadPublication = _loadPublication.asStateFlow()
+
+        private val _publication = MutableStateFlow(listOf<Publication>())
+        val publication = _publication.asStateFlow()
+
+        private val _showRetry = MutableStateFlow(false)
+        val showRetry = _showRetry.asStateFlow()*/
+
+
     private var _publications = MutableStateFlow(listOf<Publication>())
     val publications = _publications.asStateFlow()
 
-
     init {
         fetchPublications()
+        //loadPublication()
     }
 
     private fun fetchPublications() {
@@ -48,4 +65,23 @@ class PublicationViewModel @Inject constructor() : ViewModel() {
             _publications.value = fetchedPublications
         }
     }
+
+    /*    private fun loadPublication() {
+            _loadPublication.value = true
+            apiServiceImpl.getPublications(
+                context = context,
+                onSuccess = {
+                    viewModelScope.launch {
+                        _publication.emit(it.sortedByDescending { it.title })
+                    }
+                    _showRetry.value = false
+                },
+                onFail = {
+                    _showRetry.value = true
+                },
+                loadingFinished = {
+                    _loadPublication.value = false
+                }
+            )
+        }*/
 }
