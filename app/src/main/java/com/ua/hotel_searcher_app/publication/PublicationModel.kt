@@ -1,11 +1,9 @@
 package com.ua.hotel_searcher_app.publication
 
-import com.ua.hotel_searcher_app.R
-
 data class PublicationModel(
-    val title: String,
-    val description: String,
-    val location: String,
+    val id: Int,
     val price: String,
-    val imageResId: Int = R.drawable.image_1
+    val title: String,
+    val location: String,
+    val description: String
 )

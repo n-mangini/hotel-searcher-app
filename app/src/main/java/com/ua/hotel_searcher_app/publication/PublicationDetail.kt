@@ -23,7 +23,7 @@ import com.ua.hotel_searcher_app.R
 fun PublicationDetail(publicationModel: PublicationModel) {
     Column(modifier = Modifier.padding(16.dp)) {
         Image(
-            painter = painterResource(id = publicationModel.imageResId),
+            painter = painterResource(R.drawable.image_1),
             contentDescription = publicationModel.title,
             contentScale = ContentScale.Crop,
             modifier = Modifier
@@ -55,6 +55,14 @@ fun PreviewPublicationDetail() {
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        PublicationDetail(publicationModel = PublicationModel("Hello World", "Title", "Description", "999", R.drawable.image_1))
+        PublicationDetail(
+            publicationModel = PublicationModel(
+                1,
+                "Hello World",
+                "Title",
+                "Description",
+                "999"
+            )
+        )
     }
 }
