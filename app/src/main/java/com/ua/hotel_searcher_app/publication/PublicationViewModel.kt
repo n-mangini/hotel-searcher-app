@@ -70,21 +70,21 @@ class PublicationViewModel @Inject constructor(
             val fetchedPublicationModels = listOf(
                 PublicationModel(
                     "Cozy Apartment",
-                    "A beautiful place to stay in the city center.",
+                    "$120/night",
                     "New York",
-                    "$120/night"
+                    "A beautiful place to stay in the city center."
                 ),
                 PublicationModel(
                     "Modern Loft",
-                    "Spacious and bright loft with modern amenities.",
+                    "$200/night",
                     "Los Angeles",
-                    "$200/night"
+                    "Spacious and bright loft with modern amenities."
                 ),
                 PublicationModel(
                     "Beach House",
-                    "Enjoy the sea breeze at this beachfront property.",
+                    "$1/night",
                     "Zarate, Argentina",
-                    "$1/night"
+                    "Enjoy the sea breeze at this beachfront property."
                 )
             )
             _publications.value = fetchedPublicationModels
