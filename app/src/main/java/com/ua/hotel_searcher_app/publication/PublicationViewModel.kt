@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ua.hotel_searcher_app.R
 import com.ua.hotel_searcher_app.apiManager.ApiServiceImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -29,8 +28,8 @@ class PublicationViewModel @Inject constructor(
     val showRetry = _showRetry.asStateFlow()
 
     init {
-        loadPublication()
-        //fetchPublications()
+        //loadPublication()
+        fetchHardcodedPublications()
     }
 
     fun retryLoadingRanking() {
@@ -66,25 +65,22 @@ class PublicationViewModel @Inject constructor(
     }
 
 
-    private fun fetchPublications() {
+    private fun fetchHardcodedPublications() {
         viewModelScope.launch {
             val fetchedPublicationModels = listOf(
                 PublicationModel(
-                    1,
                     "Cozy Apartment",
                     "A beautiful place to stay in the city center.",
                     "New York",
                     "$120/night"
                 ),
                 PublicationModel(
-                    2,
                     "Modern Loft",
                     "Spacious and bright loft with modern amenities.",
                     "Los Angeles",
                     "$200/night"
                 ),
                 PublicationModel(
-                    3,
                     "Beach House",
                     "Enjoy the sea breeze at this beachfront property.",
                     "Zarate, Argentina",

@@ -5,7 +5,6 @@ import android.util.Log
 import android.widget.Toast
 import com.ua.hotel_searcher_app.R
 import com.ua.hotel_searcher_app.publication.PublicationModel
-import com.ua.hotel_searcher_app.publication.PublicationResponse
 import retrofit.Call
 import retrofit.Callback
 import retrofit.GsonConverterFactory
@@ -32,21 +31,20 @@ class ApiServiceImpl @Inject constructor() {
             .build()
 
         val service: ApiService = retrofit.create(ApiService::class.java)
-        val call: Call<PublicationResponse> = service.getPublications()
+        val call: Call<List<PublicationModel>> = service.getPublications()
 
         Log.d("ApiServiceImpl", "API call created")
 
-        call.enqueue(object : Callback<PublicationResponse> {
+        call.enqueue(object : Callback<List<PublicationModel>> {
             override fun onResponse(
-                response: Response<PublicationResponse>?,
+                response: Response<List<PublicationModel>>?,
                 retrofit: Retrofit?
             ) {
                 loadingFinished()
                 Log.d("ApiServiceImpl", "onResponse called")
                 if (response?.isSuccess == true) {
                     Log.d("ApiServiceImpl", "Response successful: ${response.body()}")
-                    val publicationResponse = response.body()
-                    val publications: List<PublicationModel> = publicationResponse?.publications ?: emptyList()
+                    val publications: List<PublicationModel> = response.body()
                     onSuccess(publications)
                 } else {
                     Log.d("ApiServiceImpl", "Response not successful")

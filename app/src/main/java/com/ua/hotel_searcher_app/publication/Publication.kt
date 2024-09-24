@@ -144,7 +144,6 @@ fun PublicationView(
 fun PreviewPublicationView() {
     PublicationView(
         publication = PublicationModel(
-            1,
             "Cozy Apartment",
             "A beautiful place to stay in the city center.",
             "New York",

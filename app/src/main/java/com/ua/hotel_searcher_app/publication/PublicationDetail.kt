@@ -29,12 +29,13 @@ fun PublicationDetail(publicationModel: PublicationModel) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(200.dp)
-                .clip(RoundedCornerShape(8.dp))
+                .clip(RoundedCornerShape(10.dp))
         )
 
         Text(
             text = publicationModel.title,
-            modifier = Modifier.padding(vertical = 8.dp)
+            modifier = Modifier
+                .padding(vertical = 8.dp)
         )
 
         Text(
@@ -51,18 +52,12 @@ fun PublicationDetail(publicationModel: PublicationModel) {
 @Preview
 @Composable
 fun PreviewPublicationDetail() {
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
-    ) {
-        PublicationDetail(
-            publicationModel = PublicationModel(
-                1,
-                "Hello World",
-                "Title",
-                "Description",
-                "999"
-            )
+    PublicationDetail(
+        publicationModel = PublicationModel(
+            "Hello World",
+            "Apartamento con vistas al mar",
+            "Description",
+            "999"
         )
-    }
+    )
 }
