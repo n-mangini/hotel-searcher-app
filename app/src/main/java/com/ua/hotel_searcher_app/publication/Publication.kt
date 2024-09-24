@@ -1,7 +1,6 @@
 package com.ua.hotel_searcher_app.publication
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -27,7 +25,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -41,11 +38,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ua.hotel_searcher_app.R
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ua.hotel_searcher_app.ui.theme.PurpleGrey40
@@ -89,7 +84,7 @@ fun Publication() {
 
 
         if (selectedPublication != null) {
-            PublicationDetail(publicationModel = selectedPublication!!)
+            PublicationDetail(publication = selectedPublication!!)
         } else {
             LazyColumn {
                 items(publications) { publication ->
@@ -122,9 +117,8 @@ fun PublicationView(
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically // Center the content vertically
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            // Image on the left
             Image(
                 painter = painterResource(R.drawable.image_1),
                 contentDescription = publication.title,
@@ -134,19 +128,16 @@ fun PublicationView(
                     .clip(RoundedCornerShape(10.dp))
             )
 
-            Spacer(modifier = Modifier.width(16.dp)) // Space between image and text
+            Spacer(modifier = Modifier.width(16.dp))
 
-            // Column for text content
             Column(modifier = Modifier.weight(1f)) {
-                // Row for title and star button
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
                         text = publication.title,
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.weight(1f) // Allow title to take available space
+                        style = MaterialTheme.typography.titleMedium
                     )
                     Button(
                         onClick = { /* Save functionality */ },
@@ -174,7 +165,9 @@ fun PublicationView(
                     Text(text = publication.location)
                 }
                 Text(text = publication.description)
+
                 Spacer(modifier = Modifier.size(4.dp))
+
                 Text(
                     text = publication.price,
                     style = MaterialTheme.typography.titleMedium
