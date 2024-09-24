@@ -4,10 +4,12 @@ enum class Screens {
     Profile,
     Search,
     Whishlist,
+
+    Notifications
 }
 
-/*val basePages = listOf(
+val basePages = listOf(
     Screens.Profile.name,
     Screens.Search.name,
     Screens.Whishlist.name,
-)*/
+)

@@ -9,6 +9,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.ua.hotel_searcher_app.notifications.Notifications
 import com.ua.hotel_searcher_app.profile.Profile
 import com.ua.hotel_searcher_app.publication.Publication
 
@@ -22,6 +23,10 @@ fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostControl
             .padding(innerPadding)
             .padding(horizontal = 10.dp)
     ) {
+        composable(route = Screens.Notifications.name) {
+            Notifications()
+        }
+
         composable(route = Screens.Search.name) {
             Publication()
         }

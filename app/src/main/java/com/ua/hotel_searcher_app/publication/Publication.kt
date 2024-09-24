@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -109,71 +110,77 @@ fun Publication() {
 fun PublicationView(
     publication: PublicationModel,
     onItemClick: (PublicationModel) -> Unit
-    //modifier: Modifier = Modifier
 ) {
-
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 0.dp)
+            .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 0.dp)
             .clickable { onItemClick(publication) },
         shape = RoundedCornerShape(10.dp),
         elevation = CardDefaults.cardElevation(4.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White)
-    ){
-
-        Column(
-            modifier = Modifier
-                .clickable { onItemClick(publication) }
+    ) {
+        Row(
+            modifier = Modifier.padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically // Center the content vertically
         ) {
+            // Image on the left
             Image(
                 painter = painterResource(R.drawable.image_1),
                 contentDescription = publication.title,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 0.dp)
-                    .height(200.dp)
+                    .size(120.dp)
                     .clip(RoundedCornerShape(10.dp))
             )
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 16.dp)
-            ) {
-                Column(modifier = Modifier.weight(1f)) {
+
+            Spacer(modifier = Modifier.width(16.dp)) // Space between image and text
+
+            // Column for text content
+            Column(modifier = Modifier.weight(1f)) {
+                // Row for title and star button
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
                     Text(
                         text = publication.title,
-                        style = MaterialTheme.typography.titleMedium
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.weight(1f) // Allow title to take available space
                     )
-                    Row {
+                    Button(
+                        onClick = { /* Save functionality */ },
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clip(CircleShape)
+                    ) {
                         Icon(
-                            imageVector = Icons.Filled.LocationOn,
-                            contentDescription = "Location",
-                            modifier = Modifier.size(16.dp)
-                        )
-                        Spacer(modifier = Modifier.size(4.dp))
-                        Text(
-                            text = publication.location
+                            imageVector = Icons.Filled.Star,
+                            contentDescription = "Save",
+                            tint = Color(0xFFFFD700),
+                            modifier = Modifier
+                                .size(24.dp)
                         )
                     }
-                    Text(
-                        text = publication.description
+                }
+
+                Row {
+                    Icon(
+                        imageVector = Icons.Filled.LocationOn,
+                        contentDescription = "Location",
+                        modifier = Modifier.size(16.dp)
                     )
                     Spacer(modifier = Modifier.size(4.dp))
-                    Text(
-                        text = publication.price,
-                        style = MaterialTheme.typography.titleMedium
-                    )
+                    Text(text = publication.location)
                 }
-                Button(onClick = { TODO() }, modifier = Modifier.align(Alignment.Top)) {
-                    Icon(imageVector = Icons.Filled.Star, contentDescription = "Save")
-                }
+                Text(text = publication.description)
+                Spacer(modifier = Modifier.size(4.dp))
+                Text(
+                    text = publication.price,
+                    style = MaterialTheme.typography.titleMedium
+                )
             }
         }
-
     }
 }
 
