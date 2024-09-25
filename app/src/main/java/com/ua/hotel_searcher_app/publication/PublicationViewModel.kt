@@ -28,8 +28,8 @@ class PublicationViewModel @Inject constructor(
     val showRetry = _showRetry.asStateFlow()
 
     init {
-        //loadPublication()
-        fetchHardcodedPublications()
+        loadPublication()
+        //fetchHardcodedPublications()
     }
 
     fun retryLoadingRanking() {
@@ -45,7 +45,7 @@ class PublicationViewModel @Inject constructor(
                 Log.d("LoadPublication", "Success: ${it.size} publications received")
                 viewModelScope.launch {
                     try {
-                        _publications.emit(it.sortedByDescending { it.price })
+                        _publications.emit(it)
                         Log.d("LoadPublication", "Publications emitted successfully")
                     } catch (e: Exception) {
                         Log.e("LoadPublication", "Error emitting publications: ${e.message}")
