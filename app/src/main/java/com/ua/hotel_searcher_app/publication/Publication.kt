@@ -7,14 +7,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
@@ -29,6 +30,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -37,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -106,17 +109,17 @@ fun PublicationView(
     publication: PublicationModel,
     onItemClick: (PublicationModel) -> Unit
 ) {
+    var columnHeight by remember { mutableFloatStateOf(0f) }
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 0.dp)
             .clickable { onItemClick(publication) },
-        shape = RoundedCornerShape(10.dp),
-        elevation = CardDefaults.cardElevation(4.dp),
+        shape = RoundedCornerShape(6.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
         Row(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
@@ -124,53 +127,71 @@ fun PublicationView(
                 contentDescription = publication.title,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .size(120.dp)
-                    .clip(RoundedCornerShape(10.dp))
+                    .size(150.dp)
+                    .clip(RoundedCornerShape(6.dp))
+                    .weight(1f)
+                //.height(columnHeight.dp)
             )
 
             Spacer(modifier = Modifier.width(16.dp))
 
-            Column(modifier = Modifier.weight(1f)) {
+            Column(modifier = Modifier
+                .weight(1f)
+                .onSizeChanged {
+                    //columnHeight = it.height.toFloat()
+                }) {
+
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
                         text = publication.title,
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                    Button(
-                        onClick = { /* Save functionality */ },
+                        style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier
-                            .size(40.dp)
-                            .clip(CircleShape)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.Star,
-                            contentDescription = "Save",
-                            tint = Color(0xFFFFD700),
-                            modifier = Modifier
-                                .size(24.dp)
-                        )
-                    }
+                            .weight(1f)
+                            .align(Alignment.Top)
+                    )
+                    Icon(
+                        imageVector = Icons.Filled.Star,
+                        contentDescription = "Save",
+                        tint = Color(0xFFFFD700),
+                        modifier = Modifier
+                            .size(30.dp)
+                            .align(Alignment.Top)
+                            .clickable { //TODO save publication
+                            }
+                    )
                 }
 
                 Row {
                     Icon(
                         imageVector = Icons.Filled.LocationOn,
                         contentDescription = "Location",
-                        modifier = Modifier.size(16.dp)
+                        modifier = Modifier
+                            .size(16.dp)
+                            .align(Alignment.Top)
                     )
+
                     Spacer(modifier = Modifier.size(4.dp))
-                    Text(text = publication.location)
+
+                    Text(
+                        text = publication.location,
+                        modifier = Modifier.align(Alignment.Top)
+                    )
                 }
+
+                Spacer(modifier = Modifier.size(4.dp))
+
                 Text(text = publication.description)
 
                 Spacer(modifier = Modifier.size(4.dp))
 
                 Text(
-                    text = publication.price,
-                    style = MaterialTheme.typography.titleMedium
+                    text = "$${publication.price}",
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier
+                        .align(Alignment.End)
                 )
             }
         }
@@ -182,10 +203,10 @@ fun PublicationView(
 fun PreviewPublicationView() {
     PublicationView(
         publication = PublicationModel(
-            "Cozy Apartment",
-            "$120/night",
-            "New York",
-            "A beautiful place to stay in the city center."
+            "Wyndham Garden Campana",
+            "60700",
+            "Campana, Buenos Aires",
+            "Alojamiento informal con restaurante y spa"
         )
     ) {}
 }

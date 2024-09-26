@@ -27,7 +27,7 @@ fun PublicationDetail(publication: PublicationModel) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(200.dp)
-                .clip(RoundedCornerShape(10.dp))
+                .clip(RoundedCornerShape(6.dp))
         )
         Text(
             text = publication.title,
@@ -41,7 +41,7 @@ fun PublicationDetail(publication: PublicationModel) {
             modifier = Modifier.padding(vertical = 4.dp)
         )
         Text(
-            text = publication.price,
+            text = "$${publication.price}",
             style = MaterialTheme.typography.titleMedium
         )
     }
@@ -53,7 +53,7 @@ fun PreviewPublicationDetail() {
     PublicationDetail(
         publication = PublicationModel(
             "Cozy Apartment",
-            "$120/night",
+            "120",
             "New York",
             "A beautiful place to stay in the city center."
         )
