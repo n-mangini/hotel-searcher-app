@@ -46,6 +46,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ua.hotel_searcher_app.R
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImage
 import com.ua.hotel_searcher_app.ui.theme.PurpleGrey40
 import com.ua.hotel_searcher_app.ui.theme.PurpleGrey80
 
@@ -109,6 +110,7 @@ fun PublicationView(
     publication: PublicationModel,
     onItemClick: (PublicationModel) -> Unit
 ) {
+
     var columnHeight by remember { mutableFloatStateOf(0f) }
 
     Card(
@@ -122,15 +124,13 @@ fun PublicationView(
             modifier = Modifier.padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
-                painter = painterResource(R.drawable.image_1),
+            AsyncImage(
+                model = publication.imgUrl,
                 contentDescription = publication.title,
-                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(150.dp)
                     .clip(RoundedCornerShape(6.dp))
                     .weight(1f)
-                //.height(columnHeight.dp)
             )
 
             Spacer(modifier = Modifier.width(16.dp))
@@ -188,7 +188,7 @@ fun PublicationView(
                 Spacer(modifier = Modifier.size(4.dp))
 
                 Text(
-                    text = "$${publication.price}",
+                    text = publication.price,
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
                         .align(Alignment.End)
@@ -206,7 +206,8 @@ fun PreviewPublicationView() {
             "Wyndham Garden Campana",
             "60700",
             "Campana, Buenos Aires",
-            "Alojamiento informal con restaurante y spa"
+            "Alojamiento informal con restaurante y spa",
+            ""
         )
     ) {}
 }

@@ -4,5 +4,6 @@ data class PublicationModel(
     val title: String,
     val price: String,
     val location: String,
-    val description: String
+    val description: String,
+    val imgUrl: String
 )

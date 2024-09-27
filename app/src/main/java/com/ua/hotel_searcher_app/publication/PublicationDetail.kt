@@ -55,7 +55,8 @@ fun PreviewPublicationDetail() {
             "Cozy Apartment",
             "120",
             "New York",
-            "A beautiful place to stay in the city center."
+            "A beautiful place to stay in the city center.",
+            ""
         )
     )
 }

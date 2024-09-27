@@ -63,31 +63,4 @@ class PublicationViewModel @Inject constructor(
             }
         )
     }
-
-
-    private fun fetchHardcodedPublications() {
-        viewModelScope.launch {
-            val fetchedPublicationModels = listOf(
-                PublicationModel(
-                    "Cozy Apartment",
-                    "$120/night",
-                    "New York",
-                    "A beautiful place to stay in the city center."
-                ),
-                PublicationModel(
-                    "Modern Loft",
-                    "$200/night",
-                    "Los Angeles",
-                    "Spacious and bright loft with modern amenities."
-                ),
-                PublicationModel(
-                    "Beach House",
-                    "$1/night",
-                    "Zarate, Argentina",
-                    "Enjoy the sea breeze at this beachfront property."
-                )
-            )
-            _publications.value = fetchedPublicationModels
-        }
-    }
 }
