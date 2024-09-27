@@ -11,7 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.ua.hotel_searcher_app.notifications.Notifications
 import com.ua.hotel_searcher_app.profile.Profile
-import com.ua.hotel_searcher_app.publication.Publication
+import com.ua.hotel_searcher_app.hotel.Hotel
 
 @Composable
 fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostController) {
@@ -28,7 +28,7 @@ fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostControl
         }
 
         composable(route = Screens.Search.name) {
-            Publication()
+            Hotel()
         }
         composable(route = Screens.Whishlist.name) {
             // Whishlist()

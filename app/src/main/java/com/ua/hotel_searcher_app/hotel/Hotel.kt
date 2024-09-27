@@ -1,16 +1,13 @@
-package com.ua.hotel_searcher_app.publication
+package com.ua.hotel_searcher_app.hotel
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -38,27 +35,24 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ua.hotel_searcher_app.R
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.ua.hotel_searcher_app.ui.theme.PurpleGrey40
 import com.ua.hotel_searcher_app.ui.theme.PurpleGrey80
 
 @Composable
-fun Publication() {
-    val viewModel = hiltViewModel<PublicationViewModel>()
+fun Hotel() {
+    val viewModel = hiltViewModel<HotelViewModel>()
 
-    val publications by viewModel.publications.collectAsState()
-    val loading by viewModel.loadPublications.collectAsState()
+    val hotels by viewModel.hotels.collectAsState()
+    val loading by viewModel.loadHotels.collectAsState()
     val showRetry by viewModel.showRetry.collectAsState()
 
-    var selectedPublication by remember { mutableStateOf<PublicationModel?>(null) }
+    var selectedHotels by remember { mutableStateOf<HotelModel?>(null) }
 
     if (loading) {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -87,14 +81,14 @@ fun Publication() {
     } else {
 
 
-        if (selectedPublication != null) {
-            PublicationDetail(publication = selectedPublication!!)
+        if (selectedHotels != null) {
+            HotelDetail(hotel = selectedHotels!!)
         } else {
             LazyColumn {
-                items(publications) { publication ->
-                    PublicationView(
-                        publication = publication,
-                        onItemClick = { selectedPublication = publication }
+                items(hotels) { hotel ->
+                    HotelView(
+                        hotel = hotel,
+                        onItemClick = { selectedHotels = hotel }
                     )
                 }
             }
@@ -106,9 +100,9 @@ fun Publication() {
 
 //TODO reusable modifiers
 @Composable
-fun PublicationView(
-    publication: PublicationModel,
-    onItemClick: (PublicationModel) -> Unit
+fun HotelView(
+    hotel: HotelModel,
+    onItemClick: (HotelModel) -> Unit
 ) {
 
     var columnHeight by remember { mutableFloatStateOf(0f) }
@@ -116,7 +110,7 @@ fun PublicationView(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onItemClick(publication) },
+            .clickable { onItemClick(hotel) },
         shape = RoundedCornerShape(6.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
@@ -125,8 +119,8 @@ fun PublicationView(
             verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
-                model = publication.imgUrl,
-                contentDescription = publication.title,
+                model = hotel.imgUrl,
+                contentDescription = hotel.title,
                 modifier = Modifier
                     .size(150.dp)
                     .clip(RoundedCornerShape(6.dp))
@@ -146,7 +140,7 @@ fun PublicationView(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = publication.title,
+                        text = hotel.title,
                         style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier
                             .weight(1f)
@@ -159,7 +153,7 @@ fun PublicationView(
                         modifier = Modifier
                             .size(30.dp)
                             .align(Alignment.Top)
-                            .clickable { //TODO save publication
+                            .clickable { //TODO save hotel
                             }
                     )
                 }
@@ -176,19 +170,19 @@ fun PublicationView(
                     Spacer(modifier = Modifier.size(4.dp))
 
                     Text(
-                        text = publication.location,
+                        text = hotel.location,
                         modifier = Modifier.align(Alignment.Top)
                     )
                 }
 
                 Spacer(modifier = Modifier.size(4.dp))
 
-                Text(text = publication.description)
+                Text(text = hotel.description)
 
                 Spacer(modifier = Modifier.size(4.dp))
 
                 Text(
-                    text = publication.price,
+                    text = hotel.price,
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
                         .align(Alignment.End)
@@ -200,9 +194,9 @@ fun PublicationView(
 
 @Preview
 @Composable
-fun PreviewPublicationView() {
-    PublicationView(
-        publication = PublicationModel(
+fun PreviewHotelView() {
+    HotelView(
+        hotel = HotelModel(
             "Wyndham Garden Campana",
             "60700",
             "Campana, Buenos Aires",

@@ -1,4 +1,4 @@
-package com.ua.hotel_searcher_app.publication
+package com.ua.hotel_searcher_app.hotel
 
 import android.content.Context
 import android.util.Log
@@ -13,53 +13,52 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PublicationViewModel @Inject constructor(
+class HotelViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val apiServiceImpl: ApiServiceImpl
 ) : ViewModel() {
 
-    private var _loadPublications = MutableStateFlow(false)
-    val loadPublications = _loadPublications.asStateFlow()
+    private var _loadHotels = MutableStateFlow(false)
+    val loadHotels = _loadHotels.asStateFlow()
 
-    private val _publications = MutableStateFlow(listOf<PublicationModel>())
-    val publications = _publications.asStateFlow()
+    private val _hotels = MutableStateFlow(listOf<HotelModel>())
+    val hotels = _hotels.asStateFlow()
 
     private val _showRetry = MutableStateFlow(false)
     val showRetry = _showRetry.asStateFlow()
 
     init {
-        loadPublication()
-        //fetchHardcodedPublications()
+        loadHotels()
     }
 
     fun retryLoadingRanking() {
-        Log.d("LoadPublication", "Retry loading publications")
-        loadPublication()
+        Log.d("LoadHotel", "Retry loading hotels")
+        loadHotels()
     }
 
-    private fun loadPublication() {
-        _loadPublications.value = true
-        apiServiceImpl.getPublications(
+    private fun loadHotels() {
+        _loadHotels.value = true
+        apiServiceImpl.getHotels(
             context = context,
             onSuccess = {
-                Log.d("LoadPublication", "Success: ${it.size} publications received")
+                Log.d("LoadHotel", "Success: ${it.size} hotels received")
                 viewModelScope.launch {
                     try {
-                        _publications.emit(it)
-                        Log.d("LoadPublication", "Publications emitted successfully")
+                        _hotels.emit(it)
+                        Log.d("LoadHotel", "Hotels emitted successfully")
                     } catch (e: Exception) {
-                        Log.e("LoadPublication", "Error emitting publications: ${e.message}")
+                        Log.e("LoadHotel", "Error emitting hotels: ${e.message}")
                     }
                 }
                 _showRetry.value = false
             },
             onFail = {
-                Log.e("LoadPublication", "Failed to load publications")
+                Log.e("LoadHotel", "Failed to load hotels")
                 _showRetry.value = true
             },
             loadingFinished = {
-                _loadPublications.value = false
-                Log.d("LoadPublication", "Loading finished")
+                _loadHotels.value = false
+                Log.d("LoadHotels", "Loading finished")
             }
         )
     }

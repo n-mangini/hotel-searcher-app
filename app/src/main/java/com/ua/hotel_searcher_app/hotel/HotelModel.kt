@@ -1,6 +1,6 @@
-package com.ua.hotel_searcher_app.publication
+package com.ua.hotel_searcher_app.hotel
 
-data class PublicationModel(
+data class HotelModel(
     val title: String,
     val price: String,
     val location: String,
