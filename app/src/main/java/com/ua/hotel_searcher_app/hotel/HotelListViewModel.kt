@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HotelViewModel @Inject constructor(
+class HotelListViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val apiServiceImpl: ApiServiceImpl
 ) : ViewModel() {

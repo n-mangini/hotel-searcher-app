@@ -44,7 +44,7 @@ import com.ua.hotel_searcher_app.ui.theme.PurpleGrey80
 
 @Composable
 fun HotelList() {
-    val viewModel = hiltViewModel<HotelViewModel>()
+    val viewModel = hiltViewModel<HotelListViewModel>()
 
     val hotels by viewModel.hotels.collectAsState()
     val loading by viewModel.loadHotels.collectAsState()
@@ -184,7 +184,7 @@ fun LoadingView() {
 }
 
 @Composable
-fun RetryView(viewModel: HotelViewModel) {
+fun RetryView(viewModel: HotelListViewModel) {
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally,
