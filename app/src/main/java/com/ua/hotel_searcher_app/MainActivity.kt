@@ -18,7 +18,7 @@ import com.ua.hotel_searcher_app.navigation.BottomBar
 import com.ua.hotel_searcher_app.navigation.NavHostComposable
 import com.ua.hotel_searcher_app.navigation.NavigationDrawerSheet
 import com.ua.hotel_searcher_app.navigation.TopBar
-import com.ua.hotel_searcher_app.ui.theme.HotelsearcherappTheme
+import com.ua.hotel_searcher_app.ui.theme.HotelSearcherAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
             val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
             val scope = rememberCoroutineScope()
 
-            HotelsearcherappTheme {
+            HotelSearcherAppTheme {
                 ModalNavigationDrawer(drawerContent = {
                     NavigationDrawerSheet {
                         scope.launch { drawerState.close() }

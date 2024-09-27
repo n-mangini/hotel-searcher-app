@@ -7,8 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
+import com.ua.hotel_searcher_app.hotel.HotelDetail
 import com.ua.hotel_searcher_app.notifications.Notifications
 import com.ua.hotel_searcher_app.profile.Profile
 import com.ua.hotel_searcher_app.hotel.HotelList
@@ -30,8 +33,8 @@ fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostControl
         composable(route = Screens.Search.name) {
             HotelList()
         }
-        composable(route = Screens.Whishlist.name) {
-            // Whishlist()
+        composable(route = Screens.Wishlist.name) {
+            //Whishlist()
         }
         composable(route = Screens.Profile.name) {
             Profile()

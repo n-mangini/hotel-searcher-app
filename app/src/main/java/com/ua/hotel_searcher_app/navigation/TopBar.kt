@@ -58,7 +58,7 @@ fun TopBar(
         },
         actions = {
             Row(horizontalArrangement = Arrangement.spacedBy(25.dp)) {
-                BadgedBox(badge = { TabBarBadgeView(7) }) {
+                BadgedBox(badge = { TabBarBadgeView(912) }) {
                     Icon(
                         imageVector = Icons.Filled.Notifications,
                         contentDescription = "",
@@ -69,5 +69,4 @@ fun TopBar(
         },
         modifier = Modifier.padding(horizontal = 10.dp),
     )
-
 }
