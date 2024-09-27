@@ -27,7 +27,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -35,7 +34,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -45,67 +43,48 @@ import com.ua.hotel_searcher_app.ui.theme.PurpleGrey40
 import com.ua.hotel_searcher_app.ui.theme.PurpleGrey80
 
 @Composable
-fun Hotel() {
+fun HotelList() {
     val viewModel = hiltViewModel<HotelViewModel>()
 
     val hotels by viewModel.hotels.collectAsState()
     val loading by viewModel.loadHotels.collectAsState()
     val showRetry by viewModel.showRetry.collectAsState()
 
-    var selectedHotels by remember { mutableStateOf<HotelModel?>(null) }
+    var selectedHotel by remember { mutableStateOf<HotelModel?>(null) }
 
-    if (loading) {
-        Box(modifier = Modifier.fillMaxSize()) {
-            CircularProgressIndicator(
-                modifier = Modifier
-                    .size(64.dp)
-                    .align(Alignment.Center),
-                color = PurpleGrey40,
-                trackColor = PurpleGrey80,
-            )
-        }
-    } else if (showRetry) {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Text(
-                text = "retry",
-                fontWeight = FontWeight.Bold,
-            )
-            Text(text = "loadRanking")
-            Button(onClick = { viewModel.retryLoadingRanking() }) {
-                Text(text = "retry")
-            }
-        }
-    } else {
+    when {
+        loading -> LoadingView()
+        showRetry -> RetryView(viewModel)
 
+        selectedHotel != null -> HotelDetail(hotel = selectedHotel!!)
 
-        if (selectedHotels != null) {
-            HotelDetail(hotel = selectedHotels!!)
-        } else {
-            LazyColumn {
-                items(hotels) { hotel ->
-                    HotelView(
-                        hotel = hotel,
-                        onItemClick = { selectedHotels = hotel }
-                    )
-                }
-            }
-        }
-
-
+        else -> HotelListContent(
+            hotels = hotels,
+            onHotelSelected = { selectedHotel = it }
+        )
     }
 }
 
-//TODO reusable modifiers
+@Composable
+fun HotelListContent(
+    hotels: List<HotelModel>,
+    onHotelSelected: (HotelModel) -> Unit
+) {
+    LazyColumn {
+        items(hotels) { hotel ->
+            HotelView(
+                hotel = hotel,
+                onItemClick = { onHotelSelected(hotel) }
+            )
+        }
+    }
+}
+
 @Composable
 fun HotelView(
     hotel: HotelModel,
     onItemClick: (HotelModel) -> Unit
 ) {
-
-    var columnHeight by remember { mutableFloatStateOf(0f) }
 
     Card(
         modifier = Modifier
@@ -129,11 +108,10 @@ fun HotelView(
 
             Spacer(modifier = Modifier.width(16.dp))
 
-            Column(modifier = Modifier
-                .weight(1f)
-                .onSizeChanged {
-                    //columnHeight = it.height.toFloat()
-                }) {
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+            ) {
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -188,6 +166,36 @@ fun HotelView(
                         .align(Alignment.End)
                 )
             }
+        }
+    }
+}
+
+@Composable
+fun LoadingView() {
+    Box(modifier = Modifier.fillMaxSize()) {
+        CircularProgressIndicator(
+            modifier = Modifier
+                .size(64.dp)
+                .align(Alignment.Center),
+            color = PurpleGrey40,
+            trackColor = PurpleGrey80,
+        )
+    }
+}
+
+@Composable
+fun RetryView(viewModel: HotelViewModel) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            text = "retry",
+            fontWeight = FontWeight.Bold,
+        )
+        Text(text = "loadHotels")
+        Button(onClick = { viewModel.retryLoadingRanking() }) {
+            Text(text = "retry")
         }
     }
 }

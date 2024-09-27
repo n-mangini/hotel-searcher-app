@@ -4,8 +4,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
@@ -24,24 +24,23 @@ import com.ua.hotel_searcher_app.common.TabBarBadgeView
 fun BottomBar(
     onNavigate: (String) -> Unit,
 ) {
-
     val searchTab = TabBarItem(
         title = Screens.Search.name,
         selectedIcon = Icons.Filled.Search,
-        unselectedIcon = Icons.Outlined.Home
+        unselectedIcon = Icons.Outlined.Search
     )
     val wishlistTab = TabBarItem(
         title = Screens.Whishlist.name,
         selectedIcon = Icons.Filled.Star,
         unselectedIcon = Icons.Outlined.Star
     )
-    val moreTab = TabBarItem(
+    val profileTab = TabBarItem(
         title = Screens.Profile.name,
         selectedIcon = Icons.Filled.Person,
         unselectedIcon = Icons.Outlined.Person
     )
 
-    val tabBarItems = listOf(searchTab, wishlistTab, moreTab)
+    val tabBarItems = listOf(searchTab, wishlistTab, profileTab)
 
     TabView(tabBarItems, onNavigate)
 }
