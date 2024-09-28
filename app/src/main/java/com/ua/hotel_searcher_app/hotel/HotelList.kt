@@ -21,9 +21,12 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -35,7 +38,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
@@ -53,20 +55,45 @@ fun HotelList() {
     val showRetry by hotelListviewModel.showRetry.collectAsState()
 
     var selectedHotel by remember { mutableStateOf<HotelModel?>(null) }
+    var searchQuery by remember { mutableStateOf("") }
 
-    when {
-        loading -> LoadingView()
-        showRetry -> RetryView(hotelListviewModel)
+    Column {
+        // Add the SearchBar
+        SearchBar(query = searchQuery, onQueryChanged = { searchQuery = it })
 
-        selectedHotel != null -> HotelDetail(hotel = selectedHotel!!)
+        when {
+            loading -> LoadingView()
+            showRetry -> RetryView(hotelListviewModel)
 
-        else -> HotelListContent(
-            hotels = hotels,
-            onHotelSelected = { selectedHotel = it },
-            wishlistViewModel = wishlistViewModel
+            selectedHotel != null -> HotelDetail(hotel = selectedHotel!!)
+
+            else -> HotelListContent(
+                hotels = hotels.filter { hotel ->
+                    hotel.title.contains(searchQuery, ignoreCase = true) || hotel.location.contains(searchQuery, ignoreCase = true)
+                },
+                onHotelSelected = { selectedHotel = it },
+                wishlistViewModel = wishlistViewModel
+            )
+        }
+    }
+}
+
+@Composable
+fun SearchBar(query: String, onQueryChanged: (String) -> Unit) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        TextField(
+            value = query,
+            onValueChange = onQueryChanged,
+            placeholder = { Text(text = "Search hotels...") },
+            modifier = Modifier.fillMaxWidth()
         )
     }
 }
+
 
 @Composable
 fun HotelListContent(
