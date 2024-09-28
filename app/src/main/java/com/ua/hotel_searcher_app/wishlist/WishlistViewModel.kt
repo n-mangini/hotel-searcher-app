@@ -27,18 +27,27 @@ class WishlistViewModel @Inject constructor(
         description: String,
         price: String
     ) {
-        val hotel = HotelEntity(
-            title = title,
-            imgUrl = imgUrl,
-            location = location,
-            description = description,
-            price = price
-        )
         viewModelScope.launch {
-            appDatabase.hotelDao().insert(hotel)
-            Log.d("AddWishlist","Hotel added to wishlist")
+            // Check if the hotel already exists
+            val existingHotel = appDatabase.hotelDao().getHotelByTitle(title)
+
+            if (existingHotel == null) {
+                // Only add hotel if it doesn't already exist
+                val hotel = HotelEntity(
+                    title = title,
+                    imgUrl = imgUrl,
+                    location = location,
+                    description = description,
+                    price = price
+                )
+                appDatabase.hotelDao().insert(hotel)
+                Log.d("AddWishlist", "Hotel added to wishlist")
+            } else {
+                Log.d("AddWishlist", "Hotel already exists in the wishlist")
+            }
         }
     }
+
 
     fun deleteHotel(hotel: HotelEntity) {
         viewModelScope.launch {
