@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.ua.hotel_searcher_app"
+    namespace = "com.ua.innVista"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.ua.hotel_searcher_app"
+        applicationId = "com.ua.innVista"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
