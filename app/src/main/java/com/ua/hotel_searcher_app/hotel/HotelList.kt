@@ -194,7 +194,7 @@ fun RetryView(viewModel: HotelListViewModel) {
             fontWeight = FontWeight.Bold,
         )
         Text(text = "loadHotels")
-        Button(onClick = { viewModel.retryLoadingRanking() }) {
+        Button(onClick = { viewModel.retryLoadingHotels() }) {
             Text(text = "retry")
         }
     }
