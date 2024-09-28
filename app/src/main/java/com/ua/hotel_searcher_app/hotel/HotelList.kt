@@ -41,26 +41,29 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.ua.hotel_searcher_app.ui.theme.PurpleGrey40
 import com.ua.hotel_searcher_app.ui.theme.PurpleGrey80
+import com.ua.hotel_searcher_app.wishlist.WishlistViewModel
 
 @Composable
 fun HotelList() {
-    val viewModel = hiltViewModel<HotelListViewModel>()
+    val hotelListviewModel = hiltViewModel<HotelListViewModel>()
+    val wishlistViewModel = hiltViewModel<WishlistViewModel>()
 
-    val hotels by viewModel.hotels.collectAsState()
-    val loading by viewModel.loadHotels.collectAsState()
-    val showRetry by viewModel.showRetry.collectAsState()
+    val hotels by hotelListviewModel.hotels.collectAsState()
+    val loading by hotelListviewModel.loadHotels.collectAsState()
+    val showRetry by hotelListviewModel.showRetry.collectAsState()
 
     var selectedHotel by remember { mutableStateOf<HotelModel?>(null) }
 
     when {
         loading -> LoadingView()
-        showRetry -> RetryView(viewModel)
+        showRetry -> RetryView(hotelListviewModel)
 
         selectedHotel != null -> HotelDetail(hotel = selectedHotel!!)
 
         else -> HotelListContent(
             hotels = hotels,
-            onHotelSelected = { selectedHotel = it }
+            onHotelSelected = { selectedHotel = it },
+            wishlistViewModel = wishlistViewModel
         )
     }
 }
@@ -68,13 +71,15 @@ fun HotelList() {
 @Composable
 fun HotelListContent(
     hotels: List<HotelModel>,
-    onHotelSelected: (HotelModel) -> Unit
+    onHotelSelected: (HotelModel) -> Unit,
+    wishlistViewModel: WishlistViewModel
 ) {
     LazyColumn {
         items(hotels) { hotel ->
             HotelView(
                 hotel = hotel,
-                onItemClick = { onHotelSelected(hotel) }
+                onItemClick = { onHotelSelected(hotel) },
+                wishlistViewModel = wishlistViewModel
             )
         }
     }
@@ -83,7 +88,8 @@ fun HotelListContent(
 @Composable
 fun HotelView(
     hotel: HotelModel,
-    onItemClick: (HotelModel) -> Unit
+    onItemClick: (HotelModel) -> Unit,
+    wishlistViewModel: WishlistViewModel
 ) {
 
     Card(
@@ -131,7 +137,14 @@ fun HotelView(
                         modifier = Modifier
                             .size(30.dp)
                             .align(Alignment.Top)
-                            .clickable { //TODO save hotel
+                            .clickable {
+                                wishlistViewModel.addHotel(
+                                    title = hotel.title,
+                                    imgUrl = hotel.imgUrl,
+                                    location = hotel.location,
+                                    description = hotel.description,
+                                    price = hotel.price
+                                )
                             }
                     )
                 }
@@ -200,7 +213,7 @@ fun RetryView(viewModel: HotelListViewModel) {
     }
 }
 
-@Preview
+/*@Preview
 @Composable
 fun PreviewHotelView() {
     HotelView(
@@ -210,6 +223,6 @@ fun PreviewHotelView() {
             "Campana, Buenos Aires",
             "Alojamiento informal con restaurante y spa",
             ""
-        )
+        ), wishlistViewModel = WishlistViewModel()
     ) {}
-}
+}*/

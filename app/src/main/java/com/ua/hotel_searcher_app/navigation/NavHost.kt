@@ -15,6 +15,7 @@ import com.ua.hotel_searcher_app.hotel.HotelDetail
 import com.ua.hotel_searcher_app.notifications.Notifications
 import com.ua.hotel_searcher_app.profile.Profile
 import com.ua.hotel_searcher_app.hotel.HotelList
+import com.ua.hotel_searcher_app.wishlist.Wishlist
 
 @Composable
 fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostController) {
@@ -34,7 +35,7 @@ fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostControl
             HotelList()
         }
         composable(route = Screens.Wishlist.name) {
-            //Whishlist()
+            Wishlist()
         }
         composable(route = Screens.Profile.name) {
             Profile()

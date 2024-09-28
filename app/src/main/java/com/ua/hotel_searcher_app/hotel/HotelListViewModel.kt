@@ -31,6 +31,7 @@ class HotelListViewModel @Inject constructor(
         loadHotels()
     }
 
+    //API
     fun retryLoadingHotels() {
         Log.d("LoadHotel", "Retry loading hotels")
         loadHotels()
@@ -62,4 +63,6 @@ class HotelListViewModel @Inject constructor(
             }
         )
     }
+
+
 }
