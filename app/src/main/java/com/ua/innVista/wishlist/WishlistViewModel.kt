@@ -9,7 +9,9 @@ import com.ua.innVista.data.AppDatabase
 import com.ua.innVista.data.HotelEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,26 +27,28 @@ class WishlistViewModel @Inject constructor(
         imgUrl: String,
         location: String,
         description: String,
-        price: String
+        price: String,
+        onResult: (Boolean) -> Unit
     ) {
         viewModelScope.launch {
-            // Check if the hotel already exists
-            val existingHotel = appDatabase.hotelDao().getHotelByTitle(title)
+            val isAdded = withContext(Dispatchers.IO) {
+                val existingHotel = appDatabase.hotelDao().getHotelByTitle(title)
 
-            if (existingHotel == null) {
-                // Only add hotel if it doesn't already exist
-                val hotel = HotelEntity(
-                    title = title,
-                    imgUrl = imgUrl,
-                    location = location,
-                    description = description,
-                    price = price
-                )
-                appDatabase.hotelDao().insert(hotel)
-                Log.d("AddWishlist", "Hotel added to wishlist")
-            } else {
-                Log.d("AddWishlist", "Hotel already exists in the wishlist")
+                if (existingHotel == null) {
+                    val hotelEntity = HotelEntity(
+                        title = title,
+                        imgUrl = imgUrl,
+                        location = location,
+                        description = description,
+                        price = price
+                    )
+                    appDatabase.hotelDao().insert(hotelEntity)
+                    true
+                } else {
+                    false
+                }
             }
+            onResult(isAdded)
         }
     }
 

@@ -1,5 +1,6 @@
 package com.ua.innVista.wishlist
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -26,23 +27,42 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.ua.innVista.data.HotelEntity
+import com.ua.innVista.utils.showToast
 
 @Composable
 fun Wishlist() {
     val viewModel = hiltViewModel<WishlistViewModel>()
 
     val wishlist by viewModel.wishlist.collectAsState(initial = emptyList())
+    val context = LocalContext.current
 
-    LazyColumn(modifier = Modifier.fillMaxSize()) {
-        items(wishlist) { hotel ->
-            WishlistItem(hotel = hotel, onDeleteClick = {
-                viewModel.deleteHotel(it)
-            })
+    if (wishlist.isEmpty()) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = "Your wishlist is empty",
+                style = MaterialTheme.typography.titleMedium
+            )
+        }
+    } else {
+        LazyColumn(modifier = Modifier.fillMaxSize()) {
+            items(wishlist) { hotel ->
+                WishlistItem(
+                    hotel = hotel,
+                    onDeleteClick = {
+                        viewModel.deleteHotel(it)
+                        showToast(context, "Removed from wishlist")
+                    })
+            }
         }
     }
 }
