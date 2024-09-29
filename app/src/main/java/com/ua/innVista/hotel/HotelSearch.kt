@@ -127,6 +127,7 @@ fun HotelItem(
     Card(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(6.dp)
             .clickable { onItemClick(hotel) },
         shape = RoundedCornerShape(6.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White)
@@ -215,7 +216,7 @@ fun SearchBar(query: String, onQueryChanged: (String) -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(6.dp)
     ) {
         TextField(
             value = query,

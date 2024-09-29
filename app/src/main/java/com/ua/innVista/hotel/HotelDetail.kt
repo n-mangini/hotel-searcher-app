@@ -59,7 +59,7 @@ fun HotelDetail(hotel: HotelModel) {
         )
 
         Text(
-            text = "$${hotel.price}",
+            text = hotel.price,
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.padding(top = 8.dp)
         )
