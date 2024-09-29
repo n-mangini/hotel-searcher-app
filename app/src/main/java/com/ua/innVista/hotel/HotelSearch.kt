@@ -38,6 +38,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -137,6 +138,8 @@ fun HotelItem(
             AsyncImage(
                 model = hotel.imgUrl,
                 contentDescription = hotel.title,
+                placeholder = painterResource(id = R.drawable.innvista),
+                error = painterResource(id = R.drawable.innvista),
                 modifier = Modifier
                     .size(150.dp)
                     .clip(RoundedCornerShape(6.dp))
@@ -165,7 +168,7 @@ fun HotelItem(
                         onClick = { onIconClick() }) {
                         Icon(
                             imageVector = Icons.Default.Star,
-                            contentDescription = "Add to wishlist",
+                            contentDescription = stringResource(R.string.add_to_wishlist),
                             tint = Color(0xFFFFD700),
                             modifier = Modifier
                                 .size(30.dp)
@@ -177,7 +180,7 @@ fun HotelItem(
                 Row {
                     Icon(
                         imageVector = Icons.Filled.LocationOn,
-                        contentDescription = "Location",
+                        contentDescription = stringResource(R.string.location),
                         modifier = Modifier
                             .size(16.dp)
                             .align(Alignment.Top)
