@@ -12,4 +12,6 @@
     <string name="search_hotels">Search hotels...</string>
     <string name="retry">retry</string>
     <string name="loadhotels">loadHotels</string>
+    <string name="added_to_wishlist">Added to wishlist</string>
+    <string name="already_in_wishlist">Already in wishlist</string>
 </resources>

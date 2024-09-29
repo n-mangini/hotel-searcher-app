@@ -11,7 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.ua.innVista.notifications.Notifications
 import com.ua.innVista.profile.Profile
-import com.ua.innVista.hotel.HotelList
+import com.ua.innVista.hotel.HotelSearch
 import com.ua.innVista.wishlist.Wishlist
 
 @Composable
@@ -29,7 +29,7 @@ fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostControl
         }
 
         composable(route = Screens.Search.name) {
-            HotelList()
+            HotelSearch()
         }
         composable(route = Screens.Wishlist.name) {
             Wishlist()

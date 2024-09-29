@@ -40,6 +40,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
@@ -48,13 +49,13 @@ import com.ua.innVista.utils.showToast
 import com.ua.innVista.wishlist.WishlistViewModel
 
 @Composable
-fun HotelList() {
-    val hotelListviewModel = hiltViewModel<HotelListViewModel>()
+fun HotelSearch() {
+    val hotelSearchViewModel = hiltViewModel<HotelSearchViewModel>()
     val wishlistViewModel = hiltViewModel<WishlistViewModel>()
 
-    val hotels by hotelListviewModel.hotels.collectAsState()
-    val loading by hotelListviewModel.loadHotels.collectAsState()
-    val showRetry by hotelListviewModel.showRetry.collectAsState()
+    val hotels by hotelSearchViewModel.hotels.collectAsState()
+    val loading by hotelSearchViewModel.loadHotels.collectAsState()
+    val showRetry by hotelSearchViewModel.showRetry.collectAsState()
 
     var selectedHotel by remember { mutableStateOf<HotelModel?>(null) }
     var searchQuery by remember { mutableStateOf("") }
@@ -64,11 +65,11 @@ fun HotelList() {
 
         when {
             loading -> LoadingView()
-            showRetry -> RetryView(onRetry = { hotelListviewModel.retryLoadingHotels() })
+            showRetry -> RetryView(onRetry = { hotelSearchViewModel.retryLoadingHotels() })
 
             selectedHotel != null -> HotelDetail(hotel = selectedHotel!!)
 
-            else -> HotelListContent(
+            else -> HotelList(
                 hotels = hotels.filter { hotel ->
                     hotel.title.contains(searchQuery, ignoreCase = true) || hotel.location.contains(
                         searchQuery,
@@ -83,17 +84,33 @@ fun HotelList() {
 }
 
 @Composable
-fun HotelListContent(
+fun HotelList(
     hotels: List<HotelModel>,
     onHotelSelected: (HotelModel) -> Unit,
     wishlistViewModel: WishlistViewModel
 ) {
+    val context = LocalContext.current
+
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         items(hotels) { hotel ->
             HotelItem(
                 hotel = hotel,
                 onItemClick = { onHotelSelected(hotel) },
-                wishlistViewModel = wishlistViewModel
+                onIconClick = {
+                    wishlistViewModel.addHotel(
+                        title = hotel.title,
+                        imgUrl = hotel.imgUrl,
+                        location = hotel.location,
+                        description = hotel.description,
+                        price = hotel.price
+                    ) { wasAdded ->
+                        if (wasAdded) {
+                            showToast(context, context.getString(R.string.added_to_wishlist))
+                        } else {
+                            showToast(context, context.getString(R.string.already_in_wishlist))
+                        }
+                    }
+                }
             )
         }
     }
@@ -104,10 +121,8 @@ fun HotelListContent(
 fun HotelItem(
     hotel: HotelModel,
     onItemClick: (HotelModel) -> Unit,
-    wishlistViewModel: WishlistViewModel
+    onIconClick: () -> Unit,
 ) {
-    val context = LocalContext.current
-
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -147,21 +162,7 @@ fun HotelItem(
                             .align(Alignment.Top)
                     )
                     IconButton(
-                        onClick = {
-                            wishlistViewModel.addHotel(
-                                title = hotel.title,
-                                imgUrl = hotel.imgUrl,
-                                location = hotel.location,
-                                description = hotel.description,
-                                price = hotel.price
-                            ) { wasAdded ->
-                                if (wasAdded) {
-                                    showToast(context, "Added to wishlist")
-                                } else {
-                                    showToast(context, "Already in wishlist")
-                                }
-                            }
-                        }) {
+                        onClick = { onIconClick() }) {
                         Icon(
                             imageVector = Icons.Default.Star,
                             contentDescription = "Add to wishlist",
@@ -250,4 +251,20 @@ fun RetryView(onRetry: () -> Unit) {
             Text(text = stringResource(R.string.retry))
         }
     }
+}
+
+@Composable
+@Preview
+fun PreviewHotelItem() {
+    HotelItem(
+        hotel = HotelModel(
+            title = "Hotel 1",
+            imgUrl = "https://picsum.photos/200/300",
+            location = "Location 1",
+            description = "Description 1",
+            price = "Price 1"
+        ),
+        onItemClick = {},
+        onIconClick = {}
+    )
 }
