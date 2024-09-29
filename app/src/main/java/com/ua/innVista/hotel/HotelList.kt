@@ -37,12 +37,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.ua.innVista.ui.theme.PurpleGrey40
-import com.ua.innVista.ui.theme.PurpleGrey80
+import com.ua.innVista.R
 import com.ua.innVista.utils.showToast
 import com.ua.innVista.wishlist.WishlistViewModel
 
@@ -59,12 +60,11 @@ fun HotelList() {
     var searchQuery by remember { mutableStateOf("") }
 
     Column {
-        // Add the SearchBar
         SearchBar(query = searchQuery, onQueryChanged = { searchQuery = it })
 
         when {
             loading -> LoadingView()
-            showRetry -> RetryView(hotelListviewModel)
+            showRetry -> RetryView(onRetry = { hotelListviewModel.retryLoadingHotels() })
 
             selectedHotel != null -> HotelDetail(hotel = selectedHotel!!)
 
@@ -83,23 +83,6 @@ fun HotelList() {
 }
 
 @Composable
-fun SearchBar(query: String, onQueryChanged: (String) -> Unit) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-        TextField(
-            value = query,
-            onValueChange = onQueryChanged,
-            placeholder = { Text(text = "Search hotels...") },
-            modifier = Modifier.fillMaxWidth()
-        )
-    }
-}
-
-
-@Composable
 fun HotelListContent(
     hotels: List<HotelModel>,
     onHotelSelected: (HotelModel) -> Unit,
@@ -107,7 +90,7 @@ fun HotelListContent(
 ) {
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         items(hotels) { hotel ->
-            HotelCard(
+            HotelItem(
                 hotel = hotel,
                 onItemClick = { onHotelSelected(hotel) },
                 wishlistViewModel = wishlistViewModel
@@ -116,8 +99,9 @@ fun HotelListContent(
     }
 }
 
+
 @Composable
-fun HotelCard(
+fun HotelItem(
     hotel: HotelModel,
     onItemClick: (HotelModel) -> Unit,
     wishlistViewModel: WishlistViewModel
@@ -223,32 +207,47 @@ fun HotelCard(
 }
 
 @Composable
+fun SearchBar(query: String, onQueryChanged: (String) -> Unit) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        TextField(
+            value = query,
+            onValueChange = onQueryChanged,
+            placeholder = { Text(text = stringResource(R.string.search_hotels)) },
+            modifier = Modifier.fillMaxWidth()
+        )
+    }
+}
+
+@Composable
 fun LoadingView() {
     Box(modifier = Modifier.fillMaxSize()) {
         CircularProgressIndicator(
             modifier = Modifier
                 .size(64.dp)
                 .align(Alignment.Center),
-            color = PurpleGrey40,
-            trackColor = PurpleGrey80,
+            color = colorResource(id = R.color.appBlueLight),
+            trackColor = colorResource(id = R.color.appBlue),
         )
     }
 }
 
 @Composable
-fun RetryView(viewModel: HotelListViewModel) {
+fun RetryView(onRetry: () -> Unit) {
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = "retry",
+            text = stringResource(R.string.retry),
             fontWeight = FontWeight.Bold,
         )
-        Text(text = "loadHotels")
-        Button(onClick = { viewModel.retryLoadingHotels() }) {
-            Text(text = "retry")
+        Text(text = stringResource(R.string.loadhotels))
+        Button(onClick = { onRetry() }) {
+            Text(text = stringResource(R.string.retry))
         }
     }
 }
-
