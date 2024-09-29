@@ -1,7 +1,5 @@
 package com.ua.innVista.hotel
 
-import android.content.Context
-import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -40,7 +38,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
@@ -110,7 +107,7 @@ fun HotelListContent(
 ) {
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         items(hotels) { hotel ->
-            HotelView(
+            HotelCard(
                 hotel = hotel,
                 onItemClick = { onHotelSelected(hotel) },
                 wishlistViewModel = wishlistViewModel
@@ -120,7 +117,7 @@ fun HotelListContent(
 }
 
 @Composable
-fun HotelView(
+fun HotelCard(
     hotel: HotelModel,
     onItemClick: (HotelModel) -> Unit,
     wishlistViewModel: WishlistViewModel

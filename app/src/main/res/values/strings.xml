@@ -5,4 +5,8 @@
     <string name="save">Guardar</string>
     <string name="dark_mode">Dark Mode</string>
     <string name="profile_icon">Profile Icon</string>
+    <string name="removed_from_wishlist">Removed from wishlist</string>
+    <string name="your_wishlist_is_empty">Your wishlist is empty</string>
+    <string name="delete_from_wishlist">Delete from wishlist</string>
+    <string name="location">Location</string>
 </resources>
