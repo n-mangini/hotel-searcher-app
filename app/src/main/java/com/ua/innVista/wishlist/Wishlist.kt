@@ -1,6 +1,5 @@
 package com.ua.innVista.wishlist
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,7 +15,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -31,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,7 +38,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.ua.innVista.R
 import com.ua.innVista.data.HotelEntity
-import com.ua.innVista.hotel.HotelModel
 import com.ua.innVista.utils.showToast
 
 @Composable
@@ -61,7 +59,7 @@ fun WishlistContent(wishlist: List<HotelEntity>, viewModel: WishlistViewModel) {
 
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         items(wishlist) { hotel ->
-            HotelCard(
+            HotelItem(
                 hotel = hotel,
                 onDeleteClick = {
                     viewModel.deleteHotel(it)
@@ -71,9 +69,8 @@ fun WishlistContent(wishlist: List<HotelEntity>, viewModel: WishlistViewModel) {
     }
 }
 
-//similar to HotelCard in HotelList, but with delete button
 @Composable
-fun HotelCard(
+fun HotelItem(
     hotel: HotelEntity,
     onDeleteClick: (HotelEntity) -> Unit,
 ) {
@@ -90,6 +87,8 @@ fun HotelCard(
             AsyncImage(
                 model = hotel.imgUrl,
                 contentDescription = hotel.title,
+                placeholder = painterResource(id = R.drawable.innvista),
+                error = painterResource(id = R.drawable.innvista),
                 modifier = Modifier
                     .size(150.dp)
                     .clip(RoundedCornerShape(6.dp))
@@ -171,7 +170,15 @@ fun WishlistEmpty() {
 
 @Composable
 @Preview
-fun PreviewWishlistEmpty() {
-    WishlistEmpty()
+fun PreviewHotelItem() {
+    HotelItem(
+        hotel = HotelEntity(
+            title = "Hotel 1",
+            imgUrl = "",
+            location = "Location 1",
+            description = "Description 1",
+            price = "Price 1"
+        ),
+        onDeleteClick = {}
+    )
 }
-

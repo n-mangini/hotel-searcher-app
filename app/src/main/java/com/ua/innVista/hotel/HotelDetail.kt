@@ -2,7 +2,6 @@ package com.ua.innVista.hotel
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -23,7 +22,6 @@ import com.ua.innVista.R
 fun HotelDetail(hotel: HotelModel) {
     Column(
         modifier = Modifier
-            .fillMaxSize()
             .padding(16.dp)
     ) {
         AsyncImage(
@@ -72,7 +70,7 @@ fun PreviewHotelDetail() {
     HotelDetail(
         hotel = HotelModel(
             "Cozy Apartment",
-            "120",
+            "$120",
             "New York",
             "A beautiful place to stay in the city center.",
             ""

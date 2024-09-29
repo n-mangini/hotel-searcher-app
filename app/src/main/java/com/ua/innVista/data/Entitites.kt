@@ -2,6 +2,7 @@ package com.ua.innVista.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.ua.innVista.hotel.HotelModel
 
 @Entity(tableName = "wishlist")
 data class HotelEntity(

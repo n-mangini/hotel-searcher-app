@@ -117,7 +117,6 @@ fun HotelList(
     }
 }
 
-
 @Composable
 fun HotelItem(
     hotel: HotelModel,
@@ -170,7 +169,7 @@ fun HotelItem(
                         Icon(
                             imageVector = Icons.Default.Star,
                             contentDescription = stringResource(R.string.add_to_wishlist),
-                            tint = Color(0xFFFFD700),
+                            tint = colorResource(id = R.color.star),
                             modifier = Modifier
                                 .size(30.dp)
                                 .align(Alignment.Top)
@@ -263,7 +262,7 @@ fun PreviewHotelItem() {
     HotelItem(
         hotel = HotelModel(
             title = "Hotel 1",
-            imgUrl = "https://picsum.photos/200/300",
+            imgUrl = "",
             location = "Location 1",
             description = "Description 1",
             price = "Price 1"
