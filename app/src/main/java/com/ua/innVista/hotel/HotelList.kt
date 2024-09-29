@@ -40,6 +40,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
@@ -254,16 +255,3 @@ fun RetryView(viewModel: HotelListViewModel) {
     }
 }
 
-/*@Preview
-@Composable
-fun PreviewHotelView() {
-    HotelView(
-        hotel = HotelModel(
-            "Wyndham Garden Campana",
-            "60700",
-            "Campana, Buenos Aires",
-            "Alojamiento informal con restaurante y spa",
-            ""
-        ), wishlistViewModel = WishlistViewModel()
-    ) {}
-}*/
