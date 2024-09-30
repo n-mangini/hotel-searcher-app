@@ -6,8 +6,8 @@ import com.ua.innVista.hotel.HotelModel
 
 @Entity(tableName = "wishlist")
 data class HotelEntity(
-    @PrimaryKey (autoGenerate = true)
-    val id: Long = 0,
+    @PrimaryKey
+    val id: Long,
     val title: String,
     val imgUrl: String,
     val location: String,

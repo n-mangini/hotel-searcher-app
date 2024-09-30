@@ -173,6 +173,7 @@ fun WishlistEmpty() {
 fun PreviewHotelItem() {
     HotelItem(
         hotel = HotelEntity(
+            id = 1L,
             title = "Hotel 1",
             imgUrl = "",
             location = "Location 1",

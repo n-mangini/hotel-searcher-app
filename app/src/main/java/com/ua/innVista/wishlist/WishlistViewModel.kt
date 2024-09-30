@@ -23,6 +23,7 @@ class WishlistViewModel @Inject constructor(
     val wishlist = appDatabase.hotelDao().getAllHotels().asFlow()
 
     fun addHotel(
+        id: Long,
         title: String,
         imgUrl: String,
         location: String,
@@ -36,6 +37,7 @@ class WishlistViewModel @Inject constructor(
 
                 if (existingHotel == null) {
                     val hotelEntity = HotelEntity(
+                        id = id,
                         title = title,
                         imgUrl = imgUrl,
                         location = location,

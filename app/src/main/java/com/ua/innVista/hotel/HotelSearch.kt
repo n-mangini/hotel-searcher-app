@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -36,6 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -99,6 +101,7 @@ fun HotelList(
                 onItemClick = { onHotelSelected(hotel) },
                 onIconClick = {
                     wishlistViewModel.addHotel(
+                        id = hotel.id,
                         title = hotel.title,
                         imgUrl = hotel.imgUrl,
                         location = hotel.location,
@@ -135,16 +138,21 @@ fun HotelItem(
             modifier = Modifier.padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            AsyncImage(
-                model = hotel.imgUrl,
-                contentDescription = hotel.title,
-                placeholder = painterResource(id = R.drawable.innvista),
-                error = painterResource(id = R.drawable.innvista),
+            Box(
                 modifier = Modifier
-                    .size(150.dp)
+                    .width(150.dp)
+                    .height(200.dp)
                     .clip(RoundedCornerShape(6.dp))
-                    .weight(1f)
-            )
+            ) {
+                AsyncImage(
+                    model = hotel.imgUrl,
+                    contentDescription = hotel.title,
+                    placeholder = painterResource(id = R.drawable.innvista),
+                    error = painterResource(id = R.drawable.innvista),
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
 
             Spacer(modifier = Modifier.width(16.dp))
 
@@ -242,8 +250,9 @@ fun LoadingView() {
 @Composable
 fun RetryView(onRetry: () -> Unit) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = stringResource(R.string.retry),
@@ -261,6 +270,7 @@ fun RetryView(onRetry: () -> Unit) {
 fun PreviewHotelItem() {
     HotelItem(
         hotel = HotelModel(
+            1L,
             title = "Hotel 1",
             imgUrl = "",
             location = "Location 1",

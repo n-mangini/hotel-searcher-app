@@ -1,6 +1,7 @@
 package com.ua.innVista.hotel
 
 data class HotelModel(
+    val id: Long,
     val title: String,
     val price: String,
     val location: String,

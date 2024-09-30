@@ -69,6 +69,7 @@ fun HotelDetail(hotel: HotelModel) {
 fun PreviewHotelDetail() {
     HotelDetail(
         hotel = HotelModel(
+            1L,
             "Cozy Apartment",
             "$120",
             "New York",
