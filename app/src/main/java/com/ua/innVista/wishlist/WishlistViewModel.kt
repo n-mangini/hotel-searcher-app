@@ -6,6 +6,8 @@ import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.ua.innVista.data.AppDatabase
 import com.ua.innVista.data.HotelEntity
+import com.ua.innVista.hotel.HotelModel
+import com.ua.innVista.hotel.toEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -21,28 +23,13 @@ class WishlistViewModel @Inject constructor(
 
     val wishlist = appDatabase.hotelDao().getAllHotels().asFlow()
 
-    fun addHotel(
-        id: Long,
-        title: String,
-        imgUrl: String,
-        location: String,
-        description: String,
-        price: String,
-        onResult: (Boolean) -> Unit
-    ) {
+    fun addHotel(hotelModel: HotelModel, onResult: (Boolean) -> Unit) {
         viewModelScope.launch {
             val isAdded = withContext(Dispatchers.IO) {
-                val existingHotel = appDatabase.hotelDao().getHotelByTitle(title)
+                val existingHotel = appDatabase.hotelDao().getById(hotelModel.id)
 
                 if (existingHotel == null) {
-                    val hotelEntity = HotelEntity(
-                        id = id,
-                        title = title,
-                        imgUrl = imgUrl,
-                        location = location,
-                        description = description,
-                        price = price
-                    )
+                    val hotelEntity = hotelModel.toEntity()
                     appDatabase.hotelDao().insert(hotelEntity)
                     true
                 } else {

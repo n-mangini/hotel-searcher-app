@@ -16,6 +16,6 @@ interface HotelDao {
     @Query("SELECT * FROM hotels")
     fun getAllHotels(): LiveData<List<HotelEntity>>
 
-    @Query("SELECT * FROM hotels WHERE title = :title LIMIT 1")
-    suspend fun getHotelByTitle(title: String): HotelEntity?
+    @Query("SELECT * FROM hotels WHERE id = :id")
+    suspend fun getById(id: Long): HotelEntity?
 }

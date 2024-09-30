@@ -1,26 +1,14 @@
 package com.ua.innVista.wishlist
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -30,17 +18,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImage
 import com.ua.innVista.R
+import com.ua.innVista.common.HotelItem
 import com.ua.innVista.data.toModel
 import com.ua.innVista.hotel.HotelDetail
 import com.ua.innVista.hotel.HotelModel
@@ -77,99 +61,26 @@ fun WishlistContent(
             HotelItem(
                 hotel = hotel,
                 onItemClick = { onHotelSelected(hotel) },
-                onDeleteClick = {
-                    viewModel.deleteHotel(hotel.id)
-                    showToast(context, context.getString(R.string.removed_from_wishlist))
-                })
+                iconButtonComposable = {
+                    RemoveFromWishlistIcon(
+                        onIconClick = {
+                            viewModel.deleteHotel(hotel.id)
+                            showToast(context, context.getString(R.string.removed_from_wishlist))
+                        }
+                    )
+                },
+            )
         }
     }
 }
 
 @Composable
-fun HotelItem(
-    hotel: HotelModel,
-    onItemClick: (HotelModel) -> Unit,
-    onDeleteClick: (HotelModel) -> Unit,
-) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(6.dp)
-            .clickable { onItemClick(hotel) },
-        shape = RoundedCornerShape(6.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White)
-    ) {
-        Row(
-            modifier = Modifier.padding(8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            AsyncImage(
-                model = hotel.imgUrl,
-                contentDescription = hotel.title,
-                placeholder = painterResource(id = R.drawable.innvista),
-                error = painterResource(id = R.drawable.innvista),
-                modifier = Modifier
-                    .size(150.dp)
-                    .clip(RoundedCornerShape(6.dp))
-                    .weight(1f)
-            )
-
-            Spacer(modifier = Modifier.width(16.dp))
-
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-            ) {
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(
-                        text = hotel.title,
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier
-                            .weight(1f)
-                            .align(Alignment.Top)
-                    )
-                    IconButton(onClick = { onDeleteClick(hotel) }) {
-                        Icon(
-                            imageVector = Icons.Default.Delete,
-                            contentDescription = stringResource(R.string.delete_from_wishlist)
-                        )
-                    }
-                }
-
-                Row {
-                    Icon(
-                        imageVector = Icons.Filled.LocationOn,
-                        contentDescription = stringResource(R.string.location),
-                        modifier = Modifier
-                            .size(16.dp)
-                            .align(Alignment.Top)
-                    )
-
-                    Spacer(modifier = Modifier.size(4.dp))
-                    Text(
-                        text = hotel.location,
-                        modifier = Modifier.align(Alignment.Top)
-                    )
-                }
-
-                Spacer(modifier = Modifier.size(4.dp))
-
-                Text(text = hotel.description)
-
-                Spacer(modifier = Modifier.size(4.dp))
-
-                Text(
-                    text = hotel.price,
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier
-                        .align(Alignment.End)
-                )
-            }
-        }
+fun RemoveFromWishlistIcon(onIconClick: () -> Unit) {
+    IconButton(onClick = { onIconClick() }) {
+        Icon(
+            imageVector = Icons.Default.Delete,
+            contentDescription = stringResource(R.string.delete_from_wishlist)
+        )
     }
 }
 
@@ -200,6 +111,6 @@ fun PreviewHotelItem() {
             price = "Price 1"
         ),
         onItemClick = {},
-        onDeleteClick = {}
+        iconButtonComposable = { RemoveFromWishlistIcon { } }
     )
 }

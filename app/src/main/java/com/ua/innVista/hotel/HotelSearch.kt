@@ -1,30 +1,20 @@
 package com.ua.innVista.hotel
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -35,19 +25,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImage
 import com.ua.innVista.R
+import com.ua.innVista.common.HotelItem
 import com.ua.innVista.utils.showToast
 import com.ua.innVista.wishlist.WishlistViewModel
 
@@ -80,7 +66,7 @@ fun HotelSearch() {
                     )
                 },
                 onHotelSelected = { selectedHotel = it },
-                wishlistViewModel = wishlistViewModel
+                viewModel = wishlistViewModel
             )
         }
     }
@@ -90,7 +76,7 @@ fun HotelSearch() {
 fun HotelList(
     hotels: List<HotelModel>,
     onHotelSelected: (HotelModel) -> Unit,
-    wishlistViewModel: WishlistViewModel
+    viewModel: WishlistViewModel
 ) {
     val context = LocalContext.current
 
@@ -99,122 +85,43 @@ fun HotelList(
             HotelItem(
                 hotel = hotel,
                 onItemClick = { onHotelSelected(hotel) },
-                onIconClick = {
-                    wishlistViewModel.addHotel(
-                        id = hotel.id,
-                        title = hotel.title,
-                        imgUrl = hotel.imgUrl,
-                        location = hotel.location,
-                        description = hotel.description,
-                        price = hotel.price
-                    ) { wasAdded ->
-                        if (wasAdded) {
-                            showToast(context, context.getString(R.string.added_to_wishlist))
-                        } else {
-                            showToast(context, context.getString(R.string.already_in_wishlist))
+                iconButtonComposable = {
+                    AddToWishlistIcon(
+                        onIconClick = {
+                            viewModel.addHotel(hotel)
+                            { wasAdded ->
+                                if (wasAdded) {
+                                    showToast(
+                                        context,
+                                        context.getString(R.string.added_to_wishlist)
+                                    )
+                                } else {
+                                    showToast(
+                                        context,
+                                        context.getString(R.string.already_in_wishlist)
+                                    )
+                                }
+                            }
                         }
-                    }
-                }
+                    )
+                },
             )
         }
     }
 }
 
 @Composable
-fun HotelItem(
-    hotel: HotelModel,
-    onItemClick: (HotelModel) -> Unit,
-    onIconClick: () -> Unit,
-) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(6.dp)
-            .clickable { onItemClick(hotel) },
-        shape = RoundedCornerShape(6.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White)
+fun AddToWishlistIcon(onIconClick: () -> Unit) {
+    IconButton(
+        onClick = { onIconClick() }
     ) {
-        Row(
-            modifier = Modifier.padding(8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Box(
-                modifier = Modifier
-                    .width(150.dp)
-                    .height(200.dp)
-                    .clip(RoundedCornerShape(6.dp))
-            ) {
-                AsyncImage(
-                    model = hotel.imgUrl,
-                    contentDescription = hotel.title,
-                    placeholder = painterResource(id = R.drawable.innvista),
-                    error = painterResource(id = R.drawable.innvista),
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxSize()
-                )
-            }
-
-            Spacer(modifier = Modifier.width(16.dp))
-
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-            ) {
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(
-                        text = hotel.title,
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier
-                            .weight(1f)
-                            .align(Alignment.Top)
-                    )
-                    IconButton(
-                        onClick = { onIconClick() }) {
-                        Icon(
-                            imageVector = Icons.Default.Star,
-                            contentDescription = stringResource(R.string.add_to_wishlist),
-                            tint = colorResource(id = R.color.star),
-                            modifier = Modifier
-                                .size(30.dp)
-                                .align(Alignment.Top)
-                        )
-                    }
-                }
-
-                Row {
-                    Icon(
-                        imageVector = Icons.Filled.LocationOn,
-                        contentDescription = stringResource(R.string.location),
-                        modifier = Modifier
-                            .size(16.dp)
-                            .align(Alignment.Top)
-                    )
-
-                    Spacer(modifier = Modifier.size(4.dp))
-                    Text(
-                        text = hotel.location,
-                        modifier = Modifier.align(Alignment.Top)
-                    )
-                }
-
-                Spacer(modifier = Modifier.size(4.dp))
-
-                Text(text = hotel.description)
-
-                Spacer(modifier = Modifier.size(4.dp))
-
-                Text(
-                    text = hotel.price,
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier
-                        .align(Alignment.End)
-                )
-            }
-        }
+        Icon(
+            imageVector = Icons.Default.Star,
+            contentDescription = stringResource(R.string.add_to_wishlist),
+            tint = colorResource(id = R.color.star),
+            modifier = Modifier
+                .size(30.dp)
+        )
     }
 }
 
@@ -278,6 +185,6 @@ fun PreviewHotelItem() {
             price = "Price 1"
         ),
         onItemClick = {},
-        onIconClick = {}
+        iconButtonComposable = { AddToWishlistIcon { } }
     )
 }
