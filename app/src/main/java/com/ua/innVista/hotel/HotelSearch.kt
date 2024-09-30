@@ -57,7 +57,10 @@ fun HotelSearch() {
             loading -> LoadingView()
             showRetry -> RetryView(onRetry = { hotelSearchViewModel.retryLoadingHotels() })
 
-            selectedHotel != null -> HotelDetail(hotel = selectedHotel!!)
+            selectedHotel != null -> HotelDetailModal(
+                hotel = selectedHotel!!,
+                onDismissRequest = { selectedHotel = null }
+            )
 
             else -> HotelList(
                 hotels = hotels.filter { hotel ->

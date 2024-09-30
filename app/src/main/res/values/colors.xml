@@ -8,10 +8,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="appBlue">#FF349AA6</color>
-    <color name="appBlueLight">#86A2A6</color>
-    <color name="appBrown">#35271B</color>
-    <color name="appBrownLight">#4D443B</color>
+    <color name="appBlue">#FF63BDD4</color>
+    <color name="appBlueLight">#FF99DDEB</color>
+    <color name="appBrown">#FF594B4A</color>
+    <color name="appBrownLight">#FFACACAC</color>
     <color name="gray">#FFC0C0C0</color>
     <color name="star">#FFC107</color>
 </resources>

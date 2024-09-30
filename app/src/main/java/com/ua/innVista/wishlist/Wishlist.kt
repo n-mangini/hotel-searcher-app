@@ -27,7 +27,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ua.innVista.R
 import com.ua.innVista.common.HotelItem
 import com.ua.innVista.data.toModel
-import com.ua.innVista.hotel.HotelDetail
+import com.ua.innVista.hotel.HotelDetailModal
 import com.ua.innVista.hotel.HotelModel
 import com.ua.innVista.utils.showToast
 
@@ -40,7 +40,10 @@ fun Wishlist() {
 
     when {
         wishlist.isEmpty() -> WishlistEmpty()
-        selectedHotel != null -> HotelDetail(hotel = selectedHotel!!)
+        selectedHotel != null -> HotelDetailModal(
+            hotel = selectedHotel!!,
+            onDismissRequest = { selectedHotel = null })
+
         else -> WishlistContent(
             wishlist = wishlist.map { it.toModel() },
             onHotelSelected = { selectedHotel = it },

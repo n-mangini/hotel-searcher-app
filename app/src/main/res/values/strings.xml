@@ -15,4 +15,5 @@
     <string name="added_to_wishlist">Added to wishlist</string>
     <string name="already_in_wishlist">Already in wishlist</string>
     <string name="add_to_wishlist">Add to wishlist</string>
+    <string name="close">Close</string>
 </resources>
