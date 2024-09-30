@@ -38,6 +38,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.ua.innVista.R
 import com.ua.innVista.data.HotelEntity
+import com.ua.innVista.data.toModel
+import com.ua.innVista.hotel.HotelModel
 import com.ua.innVista.utils.showToast
 
 @Composable
@@ -60,9 +62,9 @@ fun WishlistContent(wishlist: List<HotelEntity>, viewModel: WishlistViewModel) {
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         items(wishlist) { hotel ->
             HotelItem(
-                hotel = hotel,
+                hotel = hotel.toModel(),
                 onDeleteClick = {
-                    viewModel.deleteHotel(it)
+                    viewModel.deleteHotel(hotel.id)
                     showToast(context, context.getString(R.string.removed_from_wishlist))
                 })
         }
@@ -71,8 +73,8 @@ fun WishlistContent(wishlist: List<HotelEntity>, viewModel: WishlistViewModel) {
 
 @Composable
 fun HotelItem(
-    hotel: HotelEntity,
-    onDeleteClick: (HotelEntity) -> Unit,
+    hotel: HotelModel,
+    onDeleteClick: (HotelModel) -> Unit,
 ) {
     Card(
         modifier = Modifier
@@ -172,7 +174,7 @@ fun WishlistEmpty() {
 @Preview
 fun PreviewHotelItem() {
     HotelItem(
-        hotel = HotelEntity(
+        hotel = HotelModel(
             id = 1L,
             title = "Hotel 1",
             imgUrl = "",

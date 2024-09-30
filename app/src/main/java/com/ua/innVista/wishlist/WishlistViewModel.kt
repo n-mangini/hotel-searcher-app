@@ -1,7 +1,6 @@
 package com.ua.innVista.wishlist
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
@@ -55,9 +54,9 @@ class WishlistViewModel @Inject constructor(
     }
 
 
-    fun deleteHotel(hotel: HotelEntity) {
+    fun deleteHotel(hotelId: Long) {
         viewModelScope.launch {
-            appDatabase.hotelDao().delete(hotel)
+            appDatabase.hotelDao().deleteById(hotelId)
         }
     }
 }
