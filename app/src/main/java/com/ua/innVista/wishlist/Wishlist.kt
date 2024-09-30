@@ -1,5 +1,6 @@
 package com.ua.innVista.wishlist
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,6 +25,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,8 +41,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.ua.innVista.R
-import com.ua.innVista.data.HotelEntity
 import com.ua.innVista.data.toModel
+import com.ua.innVista.hotel.HotelDetail
 import com.ua.innVista.hotel.HotelModel
 import com.ua.innVista.utils.showToast
 
@@ -47,22 +51,32 @@ fun Wishlist() {
     val viewModel = hiltViewModel<WishlistViewModel>()
 
     val wishlist by viewModel.wishlist.collectAsState(initial = emptyList())
+    var selectedHotel by remember { mutableStateOf<HotelModel?>(null) }
 
-    if (wishlist.isEmpty()) {
-        WishlistEmpty()
-    } else {
-        WishlistContent(wishlist = wishlist, viewModel = viewModel)
+    when {
+        wishlist.isEmpty() -> WishlistEmpty()
+        selectedHotel != null -> HotelDetail(hotel = selectedHotel!!)
+        else -> WishlistContent(
+            wishlist = wishlist.map { it.toModel() },
+            onHotelSelected = { selectedHotel = it },
+            viewModel = viewModel
+        )
     }
 }
 
 @Composable
-fun WishlistContent(wishlist: List<HotelEntity>, viewModel: WishlistViewModel) {
+fun WishlistContent(
+    wishlist: List<HotelModel>,
+    onHotelSelected: (HotelModel) -> Unit,
+    viewModel: WishlistViewModel
+) {
     val context = LocalContext.current
 
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         items(wishlist) { hotel ->
             HotelItem(
-                hotel = hotel.toModel(),
+                hotel = hotel,
+                onItemClick = { onHotelSelected(hotel) },
                 onDeleteClick = {
                     viewModel.deleteHotel(hotel.id)
                     showToast(context, context.getString(R.string.removed_from_wishlist))
@@ -74,11 +88,14 @@ fun WishlistContent(wishlist: List<HotelEntity>, viewModel: WishlistViewModel) {
 @Composable
 fun HotelItem(
     hotel: HotelModel,
+    onItemClick: (HotelModel) -> Unit,
     onDeleteClick: (HotelModel) -> Unit,
 ) {
     Card(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .padding(6.dp)
+            .clickable { onItemClick(hotel) },
         shape = RoundedCornerShape(6.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
@@ -182,6 +199,7 @@ fun PreviewHotelItem() {
             description = "Description 1",
             price = "Price 1"
         ),
+        onItemClick = {},
         onDeleteClick = {}
     )
 }
