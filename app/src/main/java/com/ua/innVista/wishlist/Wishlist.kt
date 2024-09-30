@@ -1,5 +1,6 @@
 package com.ua.innVista.wishlist
 
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -63,12 +64,9 @@ fun WishlistContent(
                 onItemClick = { onHotelSelected(hotel) },
                 iconButtonComposable = {
                     RemoveFromWishlistIcon(
-                        onIconClick = {
-                            viewModel.deleteHotel(hotel.id)
-                            showToast(context, context.getString(R.string.removed_from_wishlist))
-                        }
+                        onIconClick = { handleRemoveFromWishlist(context, viewModel, hotel) }
                     )
-                },
+                }
             )
         }
     }
@@ -98,6 +96,11 @@ fun WishlistEmpty() {
     }
 }
 
+fun handleRemoveFromWishlist(context: Context, viewModel: WishlistViewModel, hotel: HotelModel) {
+    viewModel.deleteHotel(hotel.id)
+    showToast(context, context.getString(R.string.removed_from_wishlist))
+}
+
 @Composable
 @Preview
 fun PreviewHotelItem() {
@@ -108,7 +111,7 @@ fun PreviewHotelItem() {
             imgUrl = "",
             location = "Location 1",
             description = "Description 1",
-            price = "Price 1"
+            price = "$912"
         ),
         onItemClick = {},
         iconButtonComposable = { RemoveFromWishlistIcon { } }

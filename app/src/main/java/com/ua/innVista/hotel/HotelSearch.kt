@@ -1,5 +1,6 @@
 package com.ua.innVista.hotel
 
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -66,7 +67,7 @@ fun HotelSearch() {
                     )
                 },
                 onHotelSelected = { selectedHotel = it },
-                viewModel = wishlistViewModel
+                wishlistViewModel = wishlistViewModel
             )
         }
     }
@@ -76,7 +77,7 @@ fun HotelSearch() {
 fun HotelList(
     hotels: List<HotelModel>,
     onHotelSelected: (HotelModel) -> Unit,
-    viewModel: WishlistViewModel
+    wishlistViewModel: WishlistViewModel
 ) {
     val context = LocalContext.current
 
@@ -86,25 +87,14 @@ fun HotelList(
                 hotel = hotel,
                 onItemClick = { onHotelSelected(hotel) },
                 iconButtonComposable = {
-                    AddToWishlistIcon(
-                        onIconClick = {
-                            viewModel.addHotel(hotel)
-                            { wasAdded ->
-                                if (wasAdded) {
-                                    showToast(
-                                        context,
-                                        context.getString(R.string.added_to_wishlist)
-                                    )
-                                } else {
-                                    showToast(
-                                        context,
-                                        context.getString(R.string.already_in_wishlist)
-                                    )
-                                }
-                            }
-                        }
-                    )
-                },
+                    AddToWishlistIcon(onIconClick = {
+                        handleAddToWishlist(
+                            context,
+                            wishlistViewModel,
+                            hotel
+                        )
+                    })
+                }
             )
         }
     }
@@ -172,6 +162,27 @@ fun RetryView(onRetry: () -> Unit) {
     }
 }
 
+fun handleAddToWishlist(
+    context: Context,
+    viewModel: WishlistViewModel,
+    hotel: HotelModel
+) {
+    viewModel.addHotel(hotel)
+    { wasAdded ->
+        if (wasAdded) {
+            showToast(
+                context,
+                context.getString(R.string.added_to_wishlist)
+            )
+        } else {
+            showToast(
+                context,
+                context.getString(R.string.already_in_wishlist)
+            )
+        }
+    }
+}
+
 @Composable
 @Preview
 fun PreviewHotelItem() {
@@ -182,7 +193,7 @@ fun PreviewHotelItem() {
             imgUrl = "",
             location = "Location 1",
             description = "Description 1",
-            price = "Price 1"
+            price = "$912"
         ),
         onItemClick = {},
         iconButtonComposable = { AddToWishlistIcon { } }
