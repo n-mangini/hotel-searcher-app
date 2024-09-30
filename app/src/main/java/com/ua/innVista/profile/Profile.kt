@@ -137,7 +137,6 @@ fun UserProfile(userName: String) {
     }
 }
 
-
 @Composable
 @Preview
 fun PreviewProfile() {

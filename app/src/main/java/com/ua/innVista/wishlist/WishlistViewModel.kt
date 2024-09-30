@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.ua.innVista.data.AppDatabase
-import com.ua.innVista.data.HotelEntity
 import com.ua.innVista.hotel.HotelModel
 import com.ua.innVista.hotel.toEntity
 import dagger.hilt.android.lifecycle.HiltViewModel

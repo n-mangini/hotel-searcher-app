@@ -27,7 +27,6 @@ fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostControl
         composable(route = Screens.Notifications.name) {
             Notifications()
         }
-
         composable(route = Screens.Search.name) {
             HotelSearch()
         }
