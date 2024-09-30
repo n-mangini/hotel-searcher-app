@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -17,7 +15,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -35,6 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ua.innVista.R
 import com.ua.innVista.common.HotelItem
+import com.ua.innVista.common.SearchBar
 import com.ua.innVista.utils.showToast
 import com.ua.innVista.wishlist.WishlistViewModel
 
@@ -119,22 +117,6 @@ fun AddToWishlistIcon(onIconClick: () -> Unit) {
 }
 
 @Composable
-fun SearchBar(query: String, onQueryChanged: (String) -> Unit) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(dimensionResource(id = R.dimen.dimensions_padding))
-    ) {
-        TextField(
-            value = query,
-            onValueChange = onQueryChanged,
-            placeholder = { Text(text = stringResource(R.string.search_hotels)) },
-            modifier = Modifier.fillMaxWidth()
-        )
-    }
-}
-
-@Composable
 fun LoadingView() {
     Box(modifier = Modifier.fillMaxSize()) {
         CircularProgressIndicator(
@@ -166,8 +148,7 @@ fun RetryView(onRetry: () -> Unit) {
 }
 
 fun handleAddToWishlist(
-    context: Context,
-    viewModel: WishlistViewModel,
+    context: Context, viewModel: WishlistViewModel,
     hotel: HotelModel
 ) {
     viewModel.addHotel(hotel)

@@ -29,8 +29,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
 import com.ua.innVista.R
+import com.ua.innVista.hotel.AddToWishlistIcon
 import com.ua.innVista.hotel.HotelModel
 
 
@@ -89,7 +91,7 @@ fun HotelItem(
                         style = MaterialTheme.typography.titleSmall,
                         modifier = Modifier
                             .weight(1f)
-                            .align(Alignment.Top)
+                            .align(Alignment.CenterVertically)
                     )
                     iconButtonComposable()
                 }
@@ -105,11 +107,12 @@ fun HotelItem(
                     Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.dimensions_spacer)))
                     Text(
                         text = hotel.location,
+                        style = MaterialTheme.typography.bodySmall,
                         modifier = Modifier.align(Alignment.Top)
                     )
                 }
                 Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.dimensions_spacer)))
-                Text(text = hotel.description)
+                Text(text = hotel.description, style = MaterialTheme.typography.bodyMedium)
                 Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.dimensions_spacer)))
                 Text(
                     text = hotel.price,
@@ -120,4 +123,21 @@ fun HotelItem(
             }
         }
     }
+}
+
+@Composable
+@Preview
+fun PreviewHotelItem() {
+    HotelItem(
+        hotel = HotelModel(
+            1L,
+            title = "Hotel 1",
+            imgUrl = "",
+            location = "Location 1",
+            description = "Description 1",
+            price = "$912"
+        ),
+        onItemClick = {},
+        iconButtonComposable = { AddToWishlistIcon { } }
+    )
 }
