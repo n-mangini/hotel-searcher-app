@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "hotel-searcher-app"
+rootProject.name = "innVista"
 include(":app")
  

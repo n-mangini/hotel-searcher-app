@@ -26,14 +26,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.ua.innVista.R
 import com.ua.innVista.hotel.HotelModel
-import com.ua.innVista.wishlist.RemoveFromWishlistIcon
 
 
 /**
@@ -54,20 +52,20 @@ fun HotelItem(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(6.dp)
+            .padding(dimensionResource(id = R.dimen.dimensions_padding))
             .clickable { onItemClick(hotel) },
-        shape = RoundedCornerShape(6.dp),
+        shape = RoundedCornerShape(dimensionResource(id = R.dimen.dimensions_corner_radius)),
         colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
         Row(
-            modifier = Modifier.padding(8.dp),
+            modifier = Modifier.padding(dimensionResource(id = R.dimen.dimensions_padding)),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(
                 modifier = Modifier
-                    .width(150.dp)
-                    .height(200.dp)
-                    .clip(RoundedCornerShape(6.dp))
+                    .width(dimensionResource(id = R.dimen.img_width))
+                    .height(dimensionResource(id = R.dimen.img_height))
+                    .clip(RoundedCornerShape(dimensionResource(id = R.dimen.dimensions_corner_radius)))
             ) {
                 AsyncImage(
                     model = hotel.imgUrl,
@@ -79,25 +77,20 @@ fun HotelItem(
                 )
             }
 
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.dimensions_spacer_big)))
 
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-            ) {
-
+            Column {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
                         text = hotel.title,
-                        style = MaterialTheme.typography.titleMedium,
+                        style = MaterialTheme.typography.titleSmall,
                         modifier = Modifier
                             .weight(1f)
                             .align(Alignment.Top)
                     )
-
                     iconButtonComposable()
                 }
 
@@ -106,23 +99,18 @@ fun HotelItem(
                         imageVector = Icons.Filled.LocationOn,
                         contentDescription = stringResource(R.string.location),
                         modifier = Modifier
-                            .size(16.dp)
+                            .size(dimensionResource(id = R.dimen.dimensions_icon))
                             .align(Alignment.Top)
                     )
-
-                    Spacer(modifier = Modifier.size(4.dp))
+                    Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.dimensions_spacer)))
                     Text(
                         text = hotel.location,
                         modifier = Modifier.align(Alignment.Top)
                     )
                 }
-
-                Spacer(modifier = Modifier.size(4.dp))
-
+                Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.dimensions_spacer)))
                 Text(text = hotel.description)
-
-                Spacer(modifier = Modifier.size(4.dp))
-
+                Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.dimensions_spacer)))
                 Text(
                     text = hotel.price,
                     style = MaterialTheme.typography.titleMedium,
@@ -132,21 +120,4 @@ fun HotelItem(
             }
         }
     }
-}
-
-@Composable
-@Preview
-fun PreviewHotelItem() {
-    HotelItem(
-        hotel = HotelModel(
-            1L,
-            title = "Hotel 1",
-            imgUrl = "",
-            location = "Location 1",
-            description = "Description 1",
-            price = "Price 1"
-        ),
-        onItemClick = {},
-        iconButtonComposable = { RemoveFromWishlistIcon { } }
-    )
 }

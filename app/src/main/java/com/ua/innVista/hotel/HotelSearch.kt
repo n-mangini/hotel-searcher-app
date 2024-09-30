@@ -28,10 +28,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ua.innVista.R
 import com.ua.innVista.common.HotelItem
@@ -113,7 +113,7 @@ fun AddToWishlistIcon(onIconClick: () -> Unit) {
             contentDescription = stringResource(R.string.add_to_wishlist),
             tint = colorResource(id = R.color.star),
             modifier = Modifier
-                .size(30.dp)
+                .size(dimensionResource(id = R.dimen.dimensions_action_icon))
         )
     }
 }
@@ -123,7 +123,7 @@ fun SearchBar(query: String, onQueryChanged: (String) -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(6.dp)
+            .padding(dimensionResource(id = R.dimen.dimensions_padding))
     ) {
         TextField(
             value = query,
@@ -139,7 +139,7 @@ fun LoadingView() {
     Box(modifier = Modifier.fillMaxSize()) {
         CircularProgressIndicator(
             modifier = Modifier
-                .size(64.dp)
+                .size(dimensionResource(id = R.dimen.dimensions_progress))
                 .align(Alignment.Center),
             color = colorResource(id = R.color.appBlueLight),
             trackColor = colorResource(id = R.color.appBlue),

@@ -1,7 +1,6 @@
 package com.ua.innVista.navigation
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -18,10 +17,12 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.ua.innVista.R
 import com.ua.innVista.common.TabBarBadgeView
 
@@ -42,10 +43,10 @@ fun TopBar(
     TopAppBar(
         navigationIcon = {
             Icon(
-                imageVector = if(!showBackButton) Icons.Filled.Menu else Icons.AutoMirrored.Filled.ArrowBack,
+                imageVector = if (!showBackButton) Icons.Filled.Menu else Icons.AutoMirrored.Filled.ArrowBack,
                 contentDescription = "",
                 modifier = Modifier
-                    .padding(end = 20.dp)
+                    .padding(dimensionResource(id = R.dimen.dimensions_padding))
                     .clickable {
                         if (showBackButton) {
                             navController.popBackStack()
@@ -59,7 +60,7 @@ fun TopBar(
             Text(text = stringResource(R.string.app_name))
         },
         actions = {
-            Row(horizontalArrangement = Arrangement.spacedBy(25.dp)) {
+            Row {
                 BadgedBox(badge = { TabBarBadgeView(912) }) {
                     Icon(
                         imageVector = Icons.Filled.Notifications,
@@ -69,6 +70,12 @@ fun TopBar(
                 }
             }
         },
-        modifier = Modifier.padding(horizontal = 10.dp),
+        modifier = Modifier.padding(dimensionResource(id = R.dimen.dimensions_padding)),
     )
+}
+
+@Composable
+@Preview
+fun TopBarPreview() {
+    TopBar(navController = rememberNavController(), openDrawer = {})
 }
