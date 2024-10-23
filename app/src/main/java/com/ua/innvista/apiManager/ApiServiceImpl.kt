@@ -54,7 +54,8 @@ class ApiServiceImpl @Inject constructor() {
 
             override fun onFailure(t: Throwable?) {
                 Log.e("ApiServiceImpl", "API call failed", t)
-                Toast.makeText(context, "Can't get hotels", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,
+                    context.getString(R.string.fetch_api_fail_toast), Toast.LENGTH_SHORT).show()
                 onFail()
                 Log.d("ApiServiceImpl", "Loading finished in onFailure")
                 loadingFinished()
