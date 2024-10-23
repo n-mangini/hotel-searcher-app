@@ -1,17 +1,15 @@
 package com.ua.innvista.navigation
 
 enum class Screens {
-    Profile,
-    Search,
-    Wishlist,
+    Perfil,
+    Buscar,
+    Deseados,
 
-    Notifications,
-
-    HotelDetail,
+    Notifiaciones,
 }
 
 val basePages = listOf(
-    Screens.Profile.name,
-    Screens.Search.name,
-    Screens.Wishlist.name,
+    Screens.Perfil.name,
+    Screens.Buscar.name,
+    Screens.Deseados.name,
 )

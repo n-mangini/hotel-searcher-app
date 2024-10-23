@@ -19,22 +19,22 @@ import com.ua.innvista.wishlist.Wishlist
 fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = Screens.Search.name,
+        startDestination = Screens.Buscar.name,
         modifier = Modifier
             .fillMaxSize()
             .padding(innerPadding)
             .padding(dimensionResource(id = R.dimen.dimensions_padding))
     ) {
-        composable(route = Screens.Notifications.name) {
+        composable(route = Screens.Notifiaciones.name) {
             Notifications()
         }
-        composable(route = Screens.Search.name) {
+        composable(route = Screens.Buscar.name) {
             HotelSearch()
         }
-        composable(route = Screens.Wishlist.name) {
+        composable(route = Screens.Deseados.name) {
             Wishlist()
         }
-        composable(route = Screens.Profile.name) {
+        composable(route = Screens.Perfil.name) {
             Profile()
         }
     }
