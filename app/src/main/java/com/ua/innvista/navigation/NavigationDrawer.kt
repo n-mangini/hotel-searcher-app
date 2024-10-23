@@ -12,13 +12,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.ua.innvista.R
+import com.ua.innvista.ui.Dimensions
 
 @Composable
 fun NavigationDrawerSheet(
     onClose: () -> Unit,
 ) {
     ModalDrawerSheet {
-        Column(modifier = Modifier.padding(dimensionResource(id = R.dimen.dimensions_padding_big))) {
+        Column(modifier = Modifier.padding(Dimensions.paddingBig)) {
             Icon(
                 imageVector = Icons.Default.Close,
                 contentDescription = "",

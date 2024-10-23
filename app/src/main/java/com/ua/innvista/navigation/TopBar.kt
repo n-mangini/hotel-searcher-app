@@ -25,6 +25,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.ua.innvista.R
 import com.ua.innvista.common.TabBarBadgeView
+import com.ua.innvista.ui.Dimensions
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,7 +47,7 @@ fun TopBar(
                 imageVector = if (!showBackButton) Icons.Filled.Menu else Icons.AutoMirrored.Filled.ArrowBack,
                 contentDescription = "",
                 modifier = Modifier
-                    .padding(dimensionResource(id = R.dimen.dimensions_padding))
+                    .padding(Dimensions.padding)
                     .clickable {
                         if (showBackButton) {
                             navController.popBackStack()
@@ -70,7 +71,7 @@ fun TopBar(
                 }
             }
         },
-        modifier = Modifier.padding(dimensionResource(id = R.dimen.dimensions_padding)),
+        modifier = Modifier.padding(Dimensions.padding),
     )
 }
 

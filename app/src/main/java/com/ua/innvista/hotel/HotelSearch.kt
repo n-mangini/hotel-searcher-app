@@ -33,6 +33,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ua.innvista.R
 import com.ua.innvista.common.HotelItem
 import com.ua.innvista.common.SearchBar
+import com.ua.innvista.ui.Dimensions
 import com.ua.innvista.utils.showToast
 import com.ua.innvista.wishlist.WishlistViewModel
 
@@ -111,7 +112,7 @@ fun AddToWishlistIcon(onIconClick: () -> Unit) {
             contentDescription = stringResource(R.string.add_to_wishlist),
             tint = colorResource(id = R.color.star),
             modifier = Modifier
-                .size(dimensionResource(id = R.dimen.dimensions_action_icon))
+                .size(Dimensions.actionIconSize)
         )
     }
 }
@@ -121,7 +122,7 @@ fun LoadingView() {
     Box(modifier = Modifier.fillMaxSize()) {
         CircularProgressIndicator(
             modifier = Modifier
-                .size(dimensionResource(id = R.dimen.dimensions_progress))
+                .size(Dimensions.progressSize)
                 .align(Alignment.Center),
             color = colorResource(id = R.color.appBlueLight),
             trackColor = colorResource(id = R.color.appBlue),

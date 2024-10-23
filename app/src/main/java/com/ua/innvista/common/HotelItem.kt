@@ -26,7 +26,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,6 +33,7 @@ import coil.compose.AsyncImage
 import com.ua.innvista.R
 import com.ua.innvista.hotel.AddToWishlistIcon
 import com.ua.innvista.hotel.HotelModel
+import com.ua.innvista.ui.Dimensions
 
 
 /**
@@ -54,20 +54,20 @@ fun HotelItem(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(dimensionResource(id = R.dimen.dimensions_padding))
+            .padding(Dimensions.padding)
             .clickable { onItemClick(hotel) },
-        shape = RoundedCornerShape(dimensionResource(id = R.dimen.dimensions_corner_radius)),
+        shape = RoundedCornerShape(Dimensions.cornerRadius),
         colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
         Row(
-            modifier = Modifier.padding(dimensionResource(id = R.dimen.dimensions_padding)),
+            modifier = Modifier.padding(Dimensions.padding),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(
                 modifier = Modifier
-                    .width(dimensionResource(id = R.dimen.img_width))
-                    .height(dimensionResource(id = R.dimen.img_height))
-                    .clip(RoundedCornerShape(dimensionResource(id = R.dimen.dimensions_corner_radius)))
+                    .width(Dimensions.imgWidth)
+                    .height(Dimensions.imgHeight)
+                    .clip(RoundedCornerShape(Dimensions.cornerRadius))
             ) {
                 AsyncImage(
                     model = hotel.imgUrl,
@@ -79,7 +79,7 @@ fun HotelItem(
                 )
             }
 
-            Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.dimensions_spacer_big)))
+            Spacer(modifier = Modifier.width(Dimensions.spacerBig))
 
             Column {
                 Row(
@@ -101,19 +101,19 @@ fun HotelItem(
                         imageVector = Icons.Filled.LocationOn,
                         contentDescription = stringResource(R.string.location),
                         modifier = Modifier
-                            .size(dimensionResource(id = R.dimen.dimensions_icon))
+                            .size(Dimensions.iconSize)
                             .align(Alignment.Top)
                     )
-                    Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.dimensions_spacer)))
+                    Spacer(modifier = Modifier.size(Dimensions.spacer))
                     Text(
                         text = hotel.location,
                         style = MaterialTheme.typography.bodySmall,
                         modifier = Modifier.align(Alignment.Top)
                     )
                 }
-                Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.dimensions_spacer)))
+                Spacer(modifier = Modifier.size(Dimensions.spacer))
                 Text(text = hotel.description, style = MaterialTheme.typography.bodyMedium)
-                Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.dimensions_spacer)))
+                Spacer(modifier = Modifier.size(Dimensions.spacer))
                 Text(
                     text = hotel.price,
                     style = MaterialTheme.typography.titleMedium,

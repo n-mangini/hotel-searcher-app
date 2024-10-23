@@ -33,6 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ua.innvista.R
+import com.ua.innvista.ui.Dimensions
 
 @Composable
 fun Profile() {
@@ -90,7 +91,7 @@ fun UserProfile(userName: String) {
     var isToggled by remember { mutableStateOf(false) }
 
     Column(
-        modifier = Modifier.padding(dimensionResource(id = R.dimen.dimensions_padding_big)),
+        modifier = Modifier.padding(Dimensions.paddingBig),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -99,10 +100,10 @@ fun UserProfile(userName: String) {
             Icon(
                 imageVector = Icons.Default.Person,
                 contentDescription = stringResource(R.string.profile_icon),
-                modifier = Modifier.size(dimensionResource(id = R.dimen.icon_profile_size)),
+                modifier = Modifier.size(Dimensions.iconSize),
             )
 
-            Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.dimensions_spacer_big)))
+            Spacer(modifier = Modifier.width(Dimensions.spacerBig))
 
             Text(
                 text = userName,

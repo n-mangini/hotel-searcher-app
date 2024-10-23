@@ -13,6 +13,7 @@ import com.ua.innvista.R
 import com.ua.innvista.notifications.Notifications
 import com.ua.innvista.profile.Profile
 import com.ua.innvista.hotel.HotelSearch
+import com.ua.innvista.ui.Dimensions
 import com.ua.innvista.wishlist.Wishlist
 
 @Composable
@@ -23,7 +24,7 @@ fun NavHostComposable(innerPadding: PaddingValues, navController: NavHostControl
         modifier = Modifier
             .fillMaxSize()
             .padding(innerPadding)
-            .padding(dimensionResource(id = R.dimen.dimensions_padding))
+            .padding(Dimensions.padding)
     ) {
         composable(route = Screens.Notifiaciones.name) {
             Notifications()
