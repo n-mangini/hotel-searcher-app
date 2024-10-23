@@ -45,4 +45,10 @@ class WishlistViewModel @Inject constructor(
             appDatabase.hotelDao().deleteById(hotelId)
         }
     }
+
+    suspend fun isHotelInWishlist(hotelId: Long): Boolean {
+        return withContext(Dispatchers.IO) {
+            appDatabase.hotelDao().getById(hotelId) != null
+        }
+    }
 }

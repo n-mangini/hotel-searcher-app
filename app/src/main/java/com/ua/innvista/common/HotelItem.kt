@@ -31,7 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
 import com.ua.innvista.R
-import com.ua.innvista.hotel.AddToWishlistIcon
+import com.ua.innvista.hotel.WishlistIconButton
 import com.ua.innvista.hotel.HotelModel
 import com.ua.innvista.ui.Dimensions
 
@@ -138,6 +138,6 @@ fun PreviewHotelItem() {
             price = "$912"
         ),
         onItemClick = {},
-        iconButtonComposable = { AddToWishlistIcon { } }
+        iconButtonComposable = { WishlistIconButton(true) { } }
     )
 }
