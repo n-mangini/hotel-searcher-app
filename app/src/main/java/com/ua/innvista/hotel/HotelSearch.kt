@@ -9,13 +9,16 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,7 +28,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,6 +35,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ua.innvista.R
 import com.ua.innvista.common.HotelItem
 import com.ua.innvista.common.SearchBar
+import com.ua.innvista.ui.Dimensions
 import com.ua.innvista.utils.showToast
 import com.ua.innvista.wishlist.WishlistViewModel
 
@@ -82,19 +85,32 @@ fun HotelList(
 ) {
     val context = LocalContext.current
 
+    // Collect the wishlist from the ViewModel as a state
+    val wishlist by wishlistViewModel.wishlist.collectAsState(initial = emptyList())
+
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         items(hotels) { hotel ->
+
+            val isInWishlist = remember { mutableStateOf(false) }
+
+            // Launch a coroutine to check if the hotel is in the wishlist
+            LaunchedEffect(wishlist) {
+                isInWishlist.value = wishlist.any { it.id == hotel.id }
+            }
+
             HotelItem(
                 hotel = hotel,
                 onItemClick = { onHotelSelected(hotel) },
                 iconButtonComposable = {
-                    AddToWishlistIcon(onIconClick = {
-                        handleAddToWishlist(
-                            context,
-                            wishlistViewModel,
-                            hotel
-                        )
-                    })
+                    WishlistIconButton(
+                        isInWishlist = isInWishlist.value,
+                        onIconClick = {
+                            handleAddToWishlist(
+                                context,
+                                wishlistViewModel,
+                                hotel
+                            )
+                        })
                 }
             )
         }
@@ -102,16 +118,15 @@ fun HotelList(
 }
 
 @Composable
-fun AddToWishlistIcon(onIconClick: () -> Unit) {
-    IconButton(
-        onClick = { onIconClick() }
-    ) {
+fun WishlistIconButton(isInWishlist: Boolean, onIconClick: () -> Unit) {
+    IconButton(onClick = onIconClick) {
         Icon(
-            imageVector = Icons.Default.Star,
-            contentDescription = stringResource(R.string.add_to_wishlist),
-            tint = colorResource(id = R.color.star),
-            modifier = Modifier
-                .size(dimensionResource(id = R.dimen.dimensions_action_icon))
+            imageVector = if (isInWishlist) Icons.Default.Star else Icons.Outlined.Star,
+            contentDescription = stringResource(
+                if (isInWishlist) R.string.remove_from_wishlist else R.string.add_to_wishlist
+            ),
+            tint = if (isInWishlist) colorResource(id = R.color.star) else colorResource(id = R.color.gray),
+            modifier = Modifier.size(Dimensions.actionIconSize)
         )
     }
 }
@@ -121,7 +136,7 @@ fun LoadingView() {
     Box(modifier = Modifier.fillMaxSize()) {
         CircularProgressIndicator(
             modifier = Modifier
-                .size(dimensionResource(id = R.dimen.dimensions_progress))
+                .size(Dimensions.progressSize)
                 .align(Alignment.Center),
             color = colorResource(id = R.color.appBlueLight),
             trackColor = colorResource(id = R.color.appBlue),
@@ -180,6 +195,6 @@ fun PreviewHotelItem() {
             price = "$912"
         ),
         onItemClick = {},
-        iconButtonComposable = { AddToWishlistIcon { } }
+        iconButtonComposable = { WishlistIconButton(true) { } }
     )
 }

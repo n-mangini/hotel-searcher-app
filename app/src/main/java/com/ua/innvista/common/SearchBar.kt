@@ -7,16 +7,16 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.ua.innvista.R
+import com.ua.innvista.ui.Dimensions
 
 @Composable
 fun SearchBar(query: String, onQueryChanged: (String) -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(dimensionResource(id = R.dimen.dimensions_padding))
+            .padding(Dimensions.padding)
     ) {
         TextField(
             value = query,
